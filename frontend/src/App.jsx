@@ -1,11 +1,18 @@
+import { Route, Routes } from "react-router-dom";
 
+//User Management System
+import SignUp from "./components/User/SignUp";
+import Login from "./components/User/Login";
 
 function App() {
 
   return (
-    <>
-      <h1 className='text-red-500 text-5xl'>Hello world!</h1>
-    </>
+    <div>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </div>
   )
 }
 
