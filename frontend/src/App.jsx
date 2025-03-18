@@ -1,12 +1,12 @@
-
+import React from "react";
+import AdminRegister from "./Components/AdminRegister"; 
 
 function App() {
-
   return (
-    <>
-      <h1 className='text-red-500 text-5xl'>Hello world!</h1>
-    </>
-  )
+    <div className="app-container">
+      <AdminRegister /> {}
+    </div>
+  );
 }
 
-export default App
+export default App;
