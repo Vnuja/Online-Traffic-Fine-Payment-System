@@ -1,5 +1,5 @@
 import React from "react";
-import AdminRegister from "./Components/AdminRegister"; 
+import AdminRegister from "./Components/Admin/AdminRegister"; 
 
 function App() {
   return (
