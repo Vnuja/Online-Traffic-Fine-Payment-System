@@ -9,7 +9,7 @@ const Navbar = () => {
           <img src="/WhatsApp Image 2025-03-19 at 22.27.17.jpeg" alt="Police FPS" className="logo-img" />
         </div>
         <div className="nav-links">
-          <a href="/">Home</a>
+          <a href="/GetStart">Home</a>
           <a href="/about">About</a>
           <a href="/services">Services</a>
           <a href="/contact">Contact</a>

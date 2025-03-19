@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
 import GetStart from "./components/Predication/GetStart";
+import About from "./components/Predication/About"
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
 
         {/* Prediction */}
         <Route path="/getstart" element={<GetStart />} />
+        <Route path="/about" element={<About />} />
 
 
         <Route path="/signup" element={<SignUp />} />
