@@ -2,11 +2,11 @@
 .navbar-container {
     width: 100%;
     background: linear-gradient(135deg, #6a0dad, #8e44ad);
-    padding: 5px 0;
-  }
-  
-  /* Navbar */
-  .navbar {
+    padding: 10px 0;
+}
+
+/* Navbar */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,65 +16,101 @@
     border-radius: 10px;
     margin: 5px auto;
     max-width: 1200px;
-  }
-  
-  /* Logo */
-  .logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #6a0dad;
-  }
-  
-  /* Navigation Links */
-  .nav-links a {
-    margin: 0 15px;
+}
+
+/* Logo */
+.logo-img {
+    width: 80px;
+    height: auto;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
     text-decoration: none;
     color: #333;
     font-size: 16px;
     font-weight: 500;
-    transition: 0.3s;
-  }
-  
-  .nav-links a:hover {
-    color: #6a0dad;
-    transform: scale(1.1);
-  }
-  
-  /* Auth Buttons */
-  .auth-buttons {
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Hover Effect: Underline */
+.nav-links a::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #6a0dad;
+    width: 0;
+    transition: width 0.3s ease-in-out;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Auth Buttons */
+.auth-buttons {
     display: flex;
     gap: 10px;
-  }
-  
-  .auth-buttons button {
-    padding: 8px 15px;
-    border: none;
+}
+
+.auth-buttons button {
+    padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 25px;
     transition: all 0.3s;
-  }
-  
-  .sign-in {
+    border: 2px solid transparent;
+}
+
+/* Sign In Button */
+.sign-in {
     background: transparent;
     border: 2px solid #6a0dad;
     color: #6a0dad;
-  }
-  
-  .sign-in:hover {
+}
+
+.sign-in:hover {
     background: #6a0dad;
     color: white;
-  }
-  
-  .sign-up {
+}
+
+/* Sign Up Button */
+.sign-up {
     background: #6a0dad;
     color: white;
     border: 2px solid #6a0dad;
-  }
-  
-  .sign-up:hover {
+}
+
+.sign-up:hover {
     background: white;
     color: #6a0dad;
-  }
-  
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+    }
+}
