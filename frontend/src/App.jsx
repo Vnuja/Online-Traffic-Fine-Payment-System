@@ -1,6 +1,9 @@
 import React from "react";
-import AdminRegister from "./Components/Admin/AdminRegister"; 
 import { Route, Routes } from "react-router-dom";
+
+//Admin Management System
+import AdminRegister from "./Components/Admin/AdminRegister"; 
+import AdminLogin from "./Components/Admin/AdminLogin";
 
 //User Management System
 import SignUp from "./components/User/SignUp";
@@ -11,7 +14,8 @@ function App() {
     <div>
       <Routes>
         {/* Admin */}
-        <Route path="/admin" element={<AdminRegister />} />
+        <Route path="/adminregister" element={<AdminRegister />} />
+        <Route path="/adminlogin" element={<AdminLogin />} />
         
         {/* User */}
         <Route path="/signup" element={<SignUp />} />
