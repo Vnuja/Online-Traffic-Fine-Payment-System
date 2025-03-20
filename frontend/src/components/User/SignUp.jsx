@@ -1,70 +1,91 @@
-import React from "react";
 import { motion } from "framer-motion";
-import "./signup.css";
+import Input from "../User Tools/Input";
+import { Loader, Lock, Mail, User } from "lucide-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import PasswordStrengthMeter from "../User Tools/PasswordStrengthMeter";
+import { useAuthStore } from "../User Tools/authStore";
 
 const SignUp = () => {
-  return (
-    <form style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "5px" }}>
-      <div className="container_user">
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr className="hr_user" />
+  const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
 
-        <label htmlFor="email"><b>Email</b></label>
-        <input
-          type="text"
-          placeholder="Enter Email"
-          name="email"
-          className="input_user"
-          required
-        />
+	const { signup, error, isLoading } = useAuthStore();
 
-        <label htmlFor="password"><b>Password</b></label>
-        <input
-          type="password"
-          placeholder="Enter Password"
-          name="password"
-          className="input_user"
-          required
-        />
+	const handleSignUp = async (e) => {
+		e.preventDefault();
 
-        <label htmlFor="confirmPassword"><b>Repeat Password</b></label>
-        <input
-          type="password"
-          placeholder="Repeat Password"
-          name="confirmPassword"
-          className="input_user"
-          required
-        />
+		try {
+			await signup(email, password, name);
+			navigate("/verify-email");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	return (
+		<motion.div
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+			className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl 
+			overflow-hidden'
+		>
+			<div className='p-8'>
+				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text'>
+					Create Account
+				</h2>
 
-        <label>
-          <input
-            type="checkbox"
-            name="remember"
-            className="checkbox_user"
-            style={{ marginBottom: "15px" }}
-          />{" "}
-          Remember me
-        </label>
+				<form onSubmit={handleSignUp}>
+					<Input
+						icon={User}
+						type='text'
+						placeholder='Full Name'
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
+					<Input
+						icon={Mail}
+						type='email'
+						placeholder='Email Address'
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+					<Input
+						icon={Lock}
+						type='password'
+						placeholder='Password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					{error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
+					<PasswordStrengthMeter password={password} />
 
-        <p>
-          By creating an account you agree to our{" "}
-          <a href="#" style={{ color: "dodgerblue" }}>
-            Terms & Privacy
-          </a>.
-        </p>
-
-        <div className="clearfix_user">
-          <button type="button" className="cancelbtn_user">
-            Cancel
-          </button>
-          <button type="submit" className="signupbtn_user">
-            Sign Up
-          </button>
-        </div>
-      </div>
-    </form>
-  );
+					<motion.button
+						className='mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white 
+						font-bold rounded-lg shadow-lg hover:from-green-600
+						hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
+						 focus:ring-offset-gray-900 transition duration-200'
+						whileHover={{ scale: 1.02 }}
+						whileTap={{ scale: 0.98 }}
+						type='submit'
+						disabled={isLoading}
+					>
+						{isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Sign Up"}
+					</motion.button>
+				</form>
+			</div>
+			<div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
+				<p className='text-sm text-gray-400'>
+					Already have an account?{" "}
+					<Link to={"/login"} className='text-green-400 hover:underline'>
+						Login
+					</Link>
+				</p>
+			</div>
+		</motion.div>
+	);
 };
 
 export default SignUp;
