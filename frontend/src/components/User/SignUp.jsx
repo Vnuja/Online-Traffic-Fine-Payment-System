@@ -74,14 +74,32 @@ const SignUp = () => {
             type="tel"
             placeholder="Phone Number"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => {
+				let onlyNumbers = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+				if (onlyNumbers.length > 10) {
+				  onlyNumbers = onlyNumbers.slice(0, 10); // Restrict to 10 digits
+				}
+				setPhoneNumber(onlyNumbers);
+			  }}
+			  maxLength={10} // Prevents typing more than 10 digits
           />
           <Input
             icon={IdCard}
             type="text"
             placeholder="NIC Number"
             value={NICNumber}
-            onChange={(e) => setNICNumber(e.target.value)}
+            onChange={(e) => {
+				let nicValue = e.target.value.replace(/[^0-9vV]/g, ""); // Allow only numbers and 'v'/'V'
+				
+				// Ensure 'v' or 'V' is only at the end
+				if (nicValue.includes("v") || nicValue.includes("V")) {
+				  nicValue = nicValue.replace(/v/gi, ""); // Remove all 'v' or 'V'
+				  nicValue = nicValue + "V"; // Add 'V' at the end
+				}
+			
+				setNICNumber(nicValue);
+			  }}
+			  minLength={12} // Minimum 12 characters
           />
           <Input
             icon={Lock}
