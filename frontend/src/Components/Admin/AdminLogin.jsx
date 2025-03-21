@@ -56,7 +56,7 @@ const AdminLogin = () => {
           <button type="submit" className="admin-login-button">
             Login
           </button>
-          <div className="dont-have-account">
+          <div classname="dont-have-account">
             <p>Don't have an account?<a h=""></a></p>
           </div>
         </form>
