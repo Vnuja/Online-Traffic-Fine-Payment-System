@@ -57,7 +57,7 @@ const AdminLogin = () => {
             Login
           </button>
           <div classname="dont-have-account">
-            <p>Don't have an account?<a href="AdminRegister.jsx"></a></p>
+            <p>Don't have an account?<a h=""></a></p>
           </div>
         </form>
       </div>
