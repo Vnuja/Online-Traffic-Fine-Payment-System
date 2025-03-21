@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import FloatingShape from "./components/User Tools/FloatingShape";
 
 //User Management System
@@ -10,9 +10,22 @@ import AdminLogin from "./components/Admin/AdminLogin";
 import AdminRegister from "./components/Admin/AdminRegister";
 
 function App() {
+  const location = useLocation();
+
+  // Apply different backgrounds based on the route
+  const isAdminRoute =
+    location.pathname === "/admin/register" ||
+    location.pathname === "/admin/login";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-800 via-purple-600 to-purple-300 flex items-center justify-center relative overflow-hidden">
+    <div
+      className={`min-h-screen flex items-center justify-center relative overflow-hidden 
+        ${
+          isAdminRoute
+            ? "min-h-screen bg-gradient-to-b from-[#140d25] via-[#2a1340] to-[#402060] flex items-center justify-center relative overflow-hidden" // Dark Blood Moon Theme (Admin)
+            : "min-h-screen bg-gradient-to-b from-purple-800 via-purple-600 to-purple-300 flex items-center justify-center relative overflow-hidden" // Dark Cosmic Theme (User)
+        }`}
+    >
       <FloatingShape />
       <Routes>
 
@@ -26,7 +39,7 @@ function App() {
 
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
