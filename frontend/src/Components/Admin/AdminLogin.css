@@ -1,5 +1,7 @@
 /* AdminLogin.css */
-
+body{
+  background-color: rgb(27, 23, 35);
+}
 .admin-login-container {
     display: flex;
     justify-content: center;
@@ -33,10 +35,14 @@
   }
   
   .admin-login-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #ffffff;
     font-weight: bold;
   }
   
   .admin-login-input {
+    opacity: 70%;
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
