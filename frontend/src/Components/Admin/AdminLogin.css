@@ -5,7 +5,8 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3e8ff;
+    background: linear-gradient(-45deg,#4158D0,#e560dc,#ffb374, #ef5f5f, #d840b6);
+  animation: bg 12s ease infinite;
   }
   
   .admin-login-box {
