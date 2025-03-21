@@ -76,4 +76,8 @@ body{
     background-color: #553c9a;
   }
 
-  
+  .dont-have-account{
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+  }
