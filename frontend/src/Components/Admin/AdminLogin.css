@@ -3,15 +3,16 @@ body{
   background-color: rgb(27, 23, 35);
 }
 .admin-login-container {
+    z-index:99 ;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-  animation: bg 12s ease infinite;
+    animation: bg 12s ease infinite;
   }
   
   .admin-login-box {
-    background: #6a1d86;
+    background: #3f0953;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -19,7 +20,7 @@ body{
   }
   
   .admin-login-title {
-    font-family: math;
+    
     text-align: center;
     font-size: 2.5rem;
     font-weight: bold;

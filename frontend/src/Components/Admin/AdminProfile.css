@@ -1,0 +1,128 @@
+.admin-profile-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  padding: 2rem;
+}
+
+.admin-profile-box {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(138, 43, 226, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.admin-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.admin-profile-title {
+  color: #8A2BE2;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.admin-profile-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-profile-label {
+  color: #4a4a4a;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.admin-profile-input {
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.admin-profile-input:focus {
+  outline: none;
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.1);
+}
+
+.admin-profile-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.admin-profile-error {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.admin-profile-edit-btn,
+.admin-profile-save-btn,
+.admin-profile-delete-btn,
+.admin-profile-cancel-btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-profile-edit-btn {
+  background-color: #8A2BE2;
+  color: white;
+}
+
+.admin-profile-edit-btn:hover {
+  background-color: #7a1ad2;
+}
+
+.admin-profile-save-btn {
+  background-color: #8A2BE2;
+  color: white;
+  margin-top: 1rem;
+}
+
+.admin-profile-save-btn:hover {
+  background-color: #7a1ad2;
+}
+
+.admin-profile-delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.admin-profile-delete-btn:hover {
+  background-color: #c82333;
+}
+
+.admin-profile-cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.admin-profile-cancel-btn:hover {
+  background-color: #5a6268;
+} 

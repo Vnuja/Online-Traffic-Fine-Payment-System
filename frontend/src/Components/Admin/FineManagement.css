@@ -1,0 +1,140 @@
+.fine-management {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.fine-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.fine-management-header h1 {
+  color: #8A2BE2;
+  margin: 0;
+}
+
+.fine-management-filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.fine-management-filter,
+.fine-management-search {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.fine-management-filter {
+  min-width: 150px;
+}
+
+.fine-management-search {
+  min-width: 300px;
+}
+
+.fine-management-filter:focus,
+.fine-management-search:focus {
+  outline: none;
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.1);
+}
+
+.fine-management-table-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(138, 43, 226, 0.1);
+  overflow-x: auto;
+}
+
+.fine-management-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fine-management-table th,
+.fine-management-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.fine-management-table th {
+  background-color: #f8f9fa;
+  color: #4a4a4a;
+  font-weight: 600;
+}
+
+.fine-management-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.fine-management-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.fine-management-status.pending {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.fine-management-status.approved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.fine-management-status.rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.fine-management-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fine-management-approve-btn,
+.fine-management-reject-btn,
+.fine-management-report-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fine-management-approve-btn {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.fine-management-approve-btn:hover {
+  background-color: #1b5e20;
+}
+
+.fine-management-reject-btn {
+  background-color: #c62828;
+  color: white;
+}
+
+.fine-management-reject-btn:hover {
+  background-color: #b71c1c;
+}
+
+.fine-management-report-btn {
+  background-color: #8A2BE2;
+  color: white;
+}
+
+.fine-management-report-btn:hover {
+  background-color: #7a1ad2;
+} 

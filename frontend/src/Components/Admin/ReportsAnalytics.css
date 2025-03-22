@@ -1,0 +1,142 @@
+.reports-analytics {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.reports-analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.reports-analytics-header h1 {
+  color: #8A2BE2;
+  margin: 0;
+}
+
+.reports-analytics-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reports-analytics-time-range {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 150px;
+  transition: all 0.3s ease;
+}
+
+.reports-analytics-time-range:focus {
+  outline: none;
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.1);
+}
+
+.reports-analytics-export {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reports-analytics-export-btn,
+.reports-analytics-send-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reports-analytics-export-btn {
+  background-color: #8A2BE2;
+  color: white;
+}
+
+.reports-analytics-export-btn:hover {
+  background-color: #7a1ad2;
+}
+
+.reports-analytics-send-btn {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.reports-analytics-send-btn:hover {
+  background-color: #1b5e20;
+}
+
+.reports-analytics-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.reports-analytics-stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(138, 43, 226, 0.1);
+}
+
+.reports-analytics-stat-card h3 {
+  color: #4a4a4a;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.reports-analytics-stat-number {
+  color: #8A2BE2;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.reports-analytics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+}
+
+.reports-analytics-chart {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(138, 43, 226, 0.1);
+}
+
+.reports-analytics-chart h2 {
+  color: #4a4a4a;
+  margin: 0 0 1.5rem 0;
+}
+
+.reports-analytics-chart-container {
+  overflow-x: auto;
+}
+
+.reports-analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reports-analytics-table th,
+.reports-analytics-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.reports-analytics-table th {
+  background-color: #f8f9fa;
+  color: #4a4a4a;
+  font-weight: 600;
+}
+
+.reports-analytics-table tr:hover {
+  background-color: #f8f9fa;
+} 

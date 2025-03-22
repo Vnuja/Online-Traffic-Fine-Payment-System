@@ -76,13 +76,17 @@ const Register = () => {
             <input
               type="text"
               {...register("mobile")}
-              className="admin-register-input"
-            />
+              className="admin-register-input"/>
             <p className="admin-register-error">{errors.mobile?.message}</p>
           </div>
           <button type="submit" className="admin-register-button">
             Register
           </button>
+          <div>
+            <p ClassName="Link-to-login">
+              Already have an Account? <a href="AdminLogin.jsx" >Login</a>
+            </p>
+          </div>
         </form>
       </div>
     </div>

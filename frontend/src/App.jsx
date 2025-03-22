@@ -8,6 +8,9 @@ import Login from "./components/User/Login";
 //Admin Management System
 import AdminLogin from "./components/Admin/AdminLogin";
 import AdminRegister from "./components/Admin/AdminRegister";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminProfile from "./components/Admin/AdminProfile";
+import FineManagement from "./components/Admin/FineManagement";
 
 function App() {
   const location = useLocation();
@@ -36,6 +39,9 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/profile" element={<AdminProfile />} />
+        <Route path="/admin/fines" element={<FineManagement />} />
 
       </Routes>
     </div>
