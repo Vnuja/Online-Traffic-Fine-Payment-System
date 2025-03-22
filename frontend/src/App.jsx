@@ -4,6 +4,7 @@ import FloatingShape from "./components/User Tools/FloatingShape";
 //User Management System
 import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
+import Profile from "./components/User/Profile";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   )
