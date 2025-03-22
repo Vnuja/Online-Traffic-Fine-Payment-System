@@ -1,25 +1,70 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { UploadCloud, AlertCircle } from "lucide-react"; // Importing icons
+import sectionsData from "../User Tools/sectionsData";
 
 const UploadFineReceipt = () => {
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [licenseNumber, setLicenseNumber] = useState("");
+  const [section, setSection] = useState("");
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
+  // Allowed file types
+  const allowedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
+  const maxFileSize = 2 * 1024 * 1024; // 2MB in bytes
+
+  // Vehicle number validation (Sri Lankan format)
+  const isValidVehicleNumber = (num) => /^[A-Z]{2,3}-[A-Z]{0,2}-?\d{4}$/.test(num);
+
+  // License number validation (Format: L followed by 9 digits)
+  const isValidLicenseNumber = (num) => /^L\d{9}$/.test(num);
+
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      // Validate file type
+      if (!allowedFileTypes.includes(selectedFile.type)) {
+        setMessage("Invalid file type! Only .pdf, .png, .jpg are allowed.");
+        setMessageType("error");
+        setFile(null);
+        return;
+      }
+
+      // Validate file size (2MB)
+      if (selectedFile.size > maxFileSize) {
+        setMessage("File size exceeds 2MB limit.");
+        setMessageType("error");
+        setFile(null);
+        return;
+      }
+
+      setFile(selectedFile);
+      setMessage(""); // Clear any previous error message
+    }
   };
 
   const submitFineProof = () => {
-    if (!vehicleNumber || !licenseNumber || !file) {
+    // Validations
+    if (!vehicleNumber || !licenseNumber || !section || !file) {
       setMessage("All fields are required!");
       setMessageType("error");
       return;
     }
+    if (!isValidVehicleNumber(vehicleNumber)) {
+      setMessage("Invalid vehicle number format! Example: WP-AB-1234 or ABC-1234.");
+      setMessageType("error");
+      return;
+    }
+    if (!isValidLicenseNumber(licenseNumber)) {
+      setMessage("Invalid license number! It should start with 'L' followed by 9 digits.");
+      setMessageType("error");
+      return;
+    }
 
-    // Simulating file upload
+    // Success
     setTimeout(() => {
       setMessage("Fine receipt uploaded successfully! Waiting for admin approval.");
       setMessageType("success");
@@ -41,18 +86,20 @@ const UploadFineReceipt = () => {
         </h2>
         <p className="text-gray-300 text-center">Submit your fine proof for admin approval</p>
 
+        {/* Vehicle Number Input */}
         <div className="mt-6">
           <label className="font-semibold block mb-1 text-gray-300">Vehicle Number:</label>
           <input
             type="text"
             className="w-full p-3 border border-gray-600 rounded-md bg-gray-700 text-white 
                        focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
-            placeholder="ABC-1234"
+            placeholder="ABC-1234 / WP-AB-1234"
             value={vehicleNumber}
-            onChange={(e) => setVehicleNumber(e.target.value)}
+            onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
           />
         </div>
 
+        {/* License Number Input */}
         <div className="mt-4">
           <label className="font-semibold block mb-1 text-gray-300">License Number:</label>
           <input
@@ -61,24 +108,64 @@ const UploadFineReceipt = () => {
                        focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
             placeholder="L123456789"
             value={licenseNumber}
-            onChange={(e) => setLicenseNumber(e.target.value)}
+            onChange={(e) => setLicenseNumber(e.target.value.toUpperCase())}
           />
         </div>
 
+        {/* Section Dropdown */}
+        <div className="relative mt-4">
+          <label className="font-semibold block mb-1 text-gray-300">
+            Section:
+          </label>
+          <motion.div whileFocus={{ scale: 1.02 }} className="relative">
+            <select
+              className="w-full p-3 border border-gray-600 rounded-md bg-gradient-to-r from-[#B07CE5] to-[#C68EFD] text-white 
+                         focus:outline-none focus:ring-2 focus:ring-[#C68EFD] appearance-none cursor-pointer transition-all duration-200 
+                         hover:bg-[#B07CE5] shadow-md"
+              value={section}
+              onChange={(e) => setSection(e.target.value)}
+            >
+              <option value="" className="bg-gray-800 text-white">
+                Select a section
+              </option>
+              {Object.keys(sectionsData).map((sec) => (
+                <option
+                  key={sec}
+                  value={sec}
+                  className="bg-gray-700 hover:bg-gray-600"
+                >
+                  Section {sec}
+                </option>
+              ))}
+            </select>
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
+              ▼
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Upload File Section */}
         <div className="mt-4">
-          <label className="font-semibold block mb-1 text-gray-300">Upload Fine Receipt (Image/PDF):</label>
-          <input
-            type="file"
-            className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-            accept="image/*,application/pdf"
-            onChange={handleFileChange}
-          />
+          <label className="font-semibold block mb-1 text-gray-300">Upload Fine Receipt (.pdf, .png, .jpg | Max 2MB):</label>
+          <div className="flex items-center space-x-3 p-3 border border-gray-600 rounded-md bg-gray-700 text-white cursor-pointer hover:bg-gray-600 transition">
+            <UploadCloud className="w-6 h-6 text-[#C68EFD]" />
+            <input
+              type="file"
+              className="hidden"
+              accept=".pdf,.png,.jpg"
+              onChange={handleFileChange}
+              id="fileUpload"
+            />
+            <label htmlFor="fileUpload" className="cursor-pointer">
+              {file ? file.name : "Choose a file"}
+            </label>
+          </div>
         </div>
 
+        {/* Submit Button */}
         <motion.button
           className="w-full mt-6 py-3 px-4 bg-[#C68EFD] text-white font-bold rounded-lg shadow-lg 
-                     hover:bg-[#B07CE5] focus:outline-none focus:ring-2 focus:ring-[#C68EFD] focus:ring-offset-2 
-                     focus:ring-offset-gray-900 transition duration-200"
+                     hover:bg-[#B07CE5] focus:outline-none focus:ring-2 focus:ring-[#C68EFD] transition duration-200"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={submitFineProof}
@@ -86,10 +173,13 @@ const UploadFineReceipt = () => {
           Submit
         </motion.button>
 
+        {/* Success/Error Message */}
         {message && (
-          <p className={`mt-3 font-semibold text-center ${messageType === "error" ? "text-red-500" : "text-green-500"}`}>
+          <div className={`mt-3 flex items-center gap-2 text-center font-semibold 
+                         ${messageType === "error" ? "text-red-500" : "text-green-500"}`}>
+            {messageType === "error" && <AlertCircle className="w-5 h-5 text-red-500" />}
             {message}
-          </p>
+          </div>
         )}
       </div>
     </motion.div>
