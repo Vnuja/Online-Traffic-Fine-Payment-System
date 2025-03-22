@@ -18,6 +18,7 @@ const FloatingShape = () => {
     "car.png",//
     "siren.png",//
     "traffic-lights.png",
+
     "alert.png",
     "car-2.png",
     "car-3.png",
