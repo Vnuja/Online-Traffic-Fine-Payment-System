@@ -7,7 +7,6 @@ import Login from "./components/User/Login";
 import Profile from "./components/User/Profile";
 
 function App() {
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-800 via-purple-600 to-purple-300 flex items-center justify-center relative overflow-hidden">
       <FloatingShape />

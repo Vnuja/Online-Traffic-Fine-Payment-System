@@ -5,79 +5,59 @@ const Profile = () => {
 
   const logout = () => {
     alert("You have been logged out.");
-    window.location.href = "/login"; // Redirect to login page
+    window.location.href = "/login";
   };
 
   const deleteAccount = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       alert("Your account has been deleted.");
-      window.location.href = "/signup"; // Redirect to signup page after deletion
+      window.location.href = "/signup";
     }
   };
 
   return (
     <div className="container mx-auto mt-8 p-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Profile Card */}
-        <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Left Profile Section */}
+        <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md text-center">
           <img src="profile.jpg" alt="User" className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500" />
-          <h2 className="text-xl font-semibold mt-3">John Doe</h2>
+          <h5 className="text-xl font-bold mt-4">John Doe</h5>
           <p className="text-gray-600">Sri Lanka</p>
           <hr className="my-4" />
-          <p className="text-lg">
-            <strong>Risk Score:</strong> 62 / 100
-          </p>
-          <p className="text-lg">
-            <strong>Total Violations:</strong> 12
-          </p>
-          <button className="bg-blue-500 text-white w-full py-2 rounded-lg mt-3">View Details</button>
+          <p><strong>Risk Score:</strong> 62 / 100</p>
+          <p><strong>Total Violations:</strong> 12</p>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full mt-4">View Details</button>
         </div>
 
         {/* Right Content Section */}
-        <div className="col-span-2">
-          <h2 className="text-2xl font-semibold">Profile Dashboard</h2>
-          <p className="text-gray-500">Your driving insights and account details.</p>
+        <div className="w-full md:w-2/3">
+          <h2 className="text-2xl font-bold">Profile Dashboard</h2>
+          <p className="text-gray-600">Your driving insights and account details.</p>
 
-          {/* Tabs */}
-          <div className="flex space-x-4 mt-4 border-b">
-            <button className={`py-2 px-4 ${activeTab === "profile" ? "border-b-4 border-blue-500 font-bold" : ""}`} onClick={() => setActiveTab("profile")}>
-              Profile
-            </button>
-            <button className={`py-2 px-4 ${activeTab === "prediction" ? "border-b-4 border-blue-500 font-bold" : ""}`} onClick={() => setActiveTab("prediction")}>
-              Prediction
-            </button>
-            <button className={`py-2 px-4 ${activeTab === "settings" ? "border-b-4 border-blue-500 font-bold" : ""}`} onClick={() => setActiveTab("settings")}>
-              Settings
-            </button>
+          <div className="flex mt-4 border-b">
+            {['profile', 'prediction', 'settings'].map((tab) => (
+              <button 
+                key={tab} 
+                className={`px-4 py-2 ${activeTab === tab ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`} 
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
           </div>
 
-          {/* Tab Content */}
-          <div className="mt-6">
+          <div className="mt-4">
             {activeTab === "profile" && (
               <div>
-                <h5 className="text-lg font-semibold">Profile Details</h5>
-                <table className="w-full text-left border mt-3">
+                <h5 className="text-lg font-bold">Profile Details</h5>
+                <table className="w-full mt-2 border-collapse border border-gray-300">
                   <tbody>
-                    <tr className="border-b">
-                      <th className="p-3">First Name</th>
-                      <td className="p-3">John</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="p-3">Last Name</th>
-                      <td className="p-3">Doe</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="p-3">Email</th>
-                      <td className="p-3">johndoe@example.com</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="p-3">Phone</th>
-                      <td className="p-3">+94 71 234 5678</td>
-                    </tr>
-                    <tr>
-                      <th className="p-3">Address</th>
-                      <td className="p-3">Colombo, Sri Lanka</td>
-                    </tr>
+                    {[["First Name", "John"], ["Last Name", "Doe"], ["Email", "johndoe@example.com"], ["Phone", "+94 71 234 5678"],["NIC Number", "2222222222"] , ["Address", "Colombo, Sri Lanka"]].map(([label, value], index) => (
+                      <tr key={index} className="border-b">
+                        <th className="p-2 text-left font-semibold">{label}</th>
+                        <td className="p-2">{value}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -85,25 +65,21 @@ const Profile = () => {
 
             {activeTab === "prediction" && (
               <div>
-                <h5 className="text-lg font-semibold">Violation Prediction</h5>
-                <p className="text-gray-600 mt-2">
-                  Based on your driving history, the system predicts possible violations and risk level.
-                </p>
-                <table className="w-full border mt-3">
+                <h5 className="text-lg font-bold">Violation Prediction</h5>
+                <p>Based on your driving history, the system predicts possible violations and risk level.</p>
+                <table className="w-full mt-2 border-collapse border border-gray-300">
                   <tbody>
                     <tr className="border-b">
-                      <th className="p-3">Future Risk Level</th>
-                      <td className="p-3">
-                        <span className="bg-yellow-400 text-black px-2 py-1 rounded-md">Medium</span>
-                      </td>
+                      <th className="p-2 text-left font-semibold">Future Risk Level</th>
+                      <td className="p-2"><span className="px-3 py-1 rounded-lg bg-yellow-500 text-black">Medium</span></td>
                     </tr>
                     <tr className="border-b">
-                      <th className="p-3">Predicted Violations</th>
-                      <td className="p-3">Speeding, Traffic Signal Violation</td>
+                      <th className="p-2 text-left font-semibold">Predicted Violations</th>
+                      <td className="p-2">Speeding, Traffic Signal Violation</td>
                     </tr>
                     <tr>
-                      <th className="p-3">Suggestions</th>
-                      <td className="p-3">Reduce speed in urban areas and follow traffic signals carefully.</td>
+                      <th className="p-2 text-left font-semibold">Suggestions</th>
+                      <td className="p-2">Reduce speed in urban areas and follow traffic signals carefully.</td>
                     </tr>
                   </tbody>
                 </table>
@@ -112,14 +88,10 @@ const Profile = () => {
 
             {activeTab === "settings" && (
               <div>
-                <h5 className="text-lg font-semibold">Settings</h5>
-                <p className="text-gray-600 mt-2">Manage your account settings here.</p>
-                <button className="bg-gray-500 text-white w-full py-2 rounded-lg mt-3" onClick={logout}>
-                  Logout
-                </button>
-                <button className="bg-red-600 text-white w-full py-2 rounded-lg mt-3" onClick={deleteAccount}>
-                  Delete Account
-                </button>
+                <h5 className="text-lg font-bold">Settings</h5>
+                <p>Manage your account settings here.</p>
+                <button className="bg-gray-500 text-white px-4 py-2 rounded-lg w-full my-2" onClick={logout}>Logout</button>
+                <button className="bg-red-500 text-white px-4 py-2 rounded-lg w-full" onClick={deleteAccount}>Delete Account</button>
               </div>
             )}
           </div>
