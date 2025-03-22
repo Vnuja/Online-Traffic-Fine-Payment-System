@@ -5,6 +5,7 @@ import FloatingShape from "./components/User Tools/FloatingShape";
 import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
 import Profile from "./components/User/Profile";
+import Update from "./components/User/Update";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/update" element={<Update />} />
       </Routes>
     </div>
   )

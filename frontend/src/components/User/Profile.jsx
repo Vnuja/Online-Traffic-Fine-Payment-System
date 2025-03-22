@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -46,9 +47,7 @@ const Profile = () => {
         {/* Right Content Section */}
         <div className="w-full md:w-2/3">
           <h2 className="text-2xl font-bold">Profile Dashboard</h2>
-          <p className="text-gray-600">
-            Your driving insights and account details.
-          </p>
+          <p className="text-black">Your driving insights and account details.</p>
 
           <div className="flex mt-4 border-b">
             {["profile", "prediction", "settings"].map((tab) => (
@@ -78,6 +77,7 @@ const Profile = () => {
                       ["Email", "johndoe@example.com"],
                       ["Phone", "+94 71 234 5678"],
                       ["NIC Number", "2222222222"],
+                      ["Gender", "Male"],
                       ["Address", "Colombo, Sri Lanka"],
                     ].map(([label, value], index) => (
                       <tr key={index} className="border-b">
@@ -87,9 +87,11 @@ const Profile = () => {
                     ))}
                   </tbody>
                 </table>
-                <button className="bg-[#8F87F1] text-white px-4 py-2 rounded-lg w-full mt-4 transition-transform transform hover:scale-105">
-                  Edit Details
-                </button>
+                <Link to="/update">
+                  <button className="bg-[#8F87F1] text-white px-4 py-2 rounded-lg w-full mt-4 transition-transform transform hover:scale-105">
+                    Edit Details
+                  </button>
+                </Link>
               </div>
             )}
 
