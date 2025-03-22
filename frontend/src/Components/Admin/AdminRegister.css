@@ -1,15 +1,15 @@
 /* AdminRegister.css */
-
+body{
+  background-color: rgb(27, 23, 35);
+}
 .admin-register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f3e8ff;
+      display: flex;
+      min-height: 100vh;
+      justify-content: center;
   }
   
   .admin-register-box {
-    background: #fff;
+    background: #3f0953;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +20,7 @@
     text-align: center;
     font-size: 2.5rem;
     font-weight: bold;
-    color: #6b46c1;
+    color: #ffffff;
     margin-bottom: 1rem;
   }
   
@@ -31,6 +31,7 @@
   }
   
   .admin-register-label {
+    color: #ffffff;
     font-weight: bold;
   }
   
