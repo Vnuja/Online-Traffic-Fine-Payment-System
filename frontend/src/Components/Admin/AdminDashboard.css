@@ -1,4 +1,5 @@
 .admin-dashboard {
+  z-index: 99;
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
 }
@@ -149,4 +150,20 @@
 
 .admin-dashboard-action-btn:hover {
   background-color: #7a1ad2;
+}
+
+.admin-dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: #8A2BE2;
+}
+
+.admin-dashboard-no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
 } 

@@ -1,47 +1,63 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./FineManagement.css";
 
 const FineManagement = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [fines, setFines] = useState([]);
   const [filter, setFilter] = useState("all"); // all, pending, approved, rejected
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Here you would typically fetch fines data from your backend
-    // For now, we're using mock data
-    setFines([
-      {
-        id: 1,
-        driverName: "John Smith",
-        licenseNumber: "DL123456",
-        fineType: "Speeding",
-        amount: 5000,
-        date: "2024-03-15",
-        status: "Pending",
-        location: "Colombo",
-      },
-      {
-        id: 2,
-        driverName: "Jane Doe",
-        licenseNumber: "DL789012",
-        fineType: "Red Light Violation",
-        amount: 3000,
-        date: "2024-03-14",
-        status: "Approved",
-        location: "Kandy",
-      },
-      {
-        id: 3,
-        driverName: "Mike Johnson",
-        licenseNumber: "DL345678",
-        fineType: "Parking Violation",
-        amount: 1500,
-        date: "2024-03-13",
-        status: "Rejected",
-        location: "Galle",
-      },
-    ]);
-  }, []);
+    // Check if admin is authenticated
+    const adminToken = localStorage.getItem("adminToken");
+    if (!adminToken) {
+      navigate("/admin/login");
+      return;
+    }
+    fetchFines();
+  }, [navigate]);
+
+  const fetchFines = async () => {
+    try {
+      setLoading(true);
+      // For testing, using mock data until backend is ready
+      const mockData = [
+        {
+          id: 1,
+          driverName: "John Doe",
+          licenseNumber: "ABC123",
+          fineType: "Speeding",
+          amount: 5000,
+          date: "2024-03-20",
+          location: "Colombo",
+          status: "Pending"
+        },
+        {
+          id: 2,
+          driverName: "Jane Smith",
+          licenseNumber: "XYZ789",
+          fineType: "Parking Violation",
+          amount: 3000,
+          date: "2024-03-19",
+          location: "Kandy",
+          status: "Approved"
+        }
+      ];
+      setFines(mockData);
+      // Uncomment when backend is ready
+      // const response = await axios.get('/api/admin/fines', {
+      //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
+      // });
+      // setFines(response.data);
+    } catch (error) {
+      console.error("Error fetching fines:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredFines = fines.filter((fine) => {
     const matchesFilter =
@@ -54,13 +70,16 @@ const FineManagement = () => {
 
   const handleStatusChange = async (fineId, newStatus) => {
     try {
-      // Here you would typically send a PUT request to update the fine status
-      // await axios.put(`/api/admin/fines/${fineId}`, { status: newStatus });
-      setFines(
-        fines.map((fine) =>
-          fine.id === fineId ? { ...fine, status: newStatus } : fine
-        )
-      );
+      // For testing, just update the local state
+      setFines(fines.map(fine => 
+        fine.id === fineId ? { ...fine, status: newStatus } : fine
+      ));
+      // Uncomment when backend is ready
+      // await axios.put(`/api/admin/fines/${fineId}`, 
+      //   { status: newStatus },
+      //   { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } }
+      // );
+      // fetchFines();
     } catch (error) {
       console.error("Error updating fine status:", error);
     }
@@ -68,13 +87,36 @@ const FineManagement = () => {
 
   const handleGenerateReport = async (fineId) => {
     try {
-      // Here you would typically send a request to generate and send the report
-      // await axios.post(`/api/admin/fines/${fineId}/report`);
+      // For testing, just show an alert
       alert("Report generated and sent successfully!");
+      // Uncomment when backend is ready
+      // await axios.post(`/api/admin/fines/${fineId}/report`, {}, {
+      //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
+      // });
     } catch (error) {
       console.error("Error generating report:", error);
     }
   };
+
+  const handleDeleteFine = async (fineId) => {
+    if (window.confirm("Are you sure you want to delete this fine?")) {
+      try {
+        // For testing, just update the local state
+        setFines(fines.filter(fine => fine.id !== fineId));
+        // Uncomment when backend is ready
+        // await axios.delete(`/api/admin/fines/${fineId}`, {
+        //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
+        // });
+        // fetchFines();
+      } catch (error) {
+        console.error("Error deleting fine:", error);
+      }
+    }
+  };
+
+  if (loading) {
+    return <div className="fine-management-loading">Loading...</div>;
+  }
 
   return (
     <div className="fine-management">
@@ -117,52 +159,66 @@ const FineManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredFines.map((fine) => (
-              <tr key={fine.id}>
-                <td>{fine.id}</td>
-                <td>{fine.driverName}</td>
-                <td>{fine.licenseNumber}</td>
-                <td>{fine.fineType}</td>
-                <td>Rs. {fine.amount}</td>
-                <td>{fine.date}</td>
-                <td>{fine.location}</td>
-                <td>
-                  <span
-                    className={`fine-management-status ${fine.status.toLowerCase()}`}
-                  >
-                    {fine.status}
-                  </span>
-                </td>
-                <td>
-                  <div className="fine-management-actions">
-                    {fine.status === "Pending" && (
-                      <>
+            {filteredFines.length > 0 ? (
+              filteredFines.map((fine) => (
+                <tr key={fine.id}>
+                  <td>{fine.id}</td>
+                  <td>{fine.driverName}</td>
+                  <td>{fine.licenseNumber}</td>
+                  <td>{fine.fineType}</td>
+                  <td>Rs. {fine.amount}</td>
+                  <td>{fine.date}</td>
+                  <td>{fine.location}</td>
+                  <td>
+                    <span
+                      className={`fine-management-status ${fine.status.toLowerCase()}`}
+                    >
+                      {fine.status}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="fine-management-actions">
+                      {fine.status === "Pending" && (
+                        <>
+                          <button
+                            className="fine-management-approve-btn"
+                            onClick={() => handleStatusChange(fine.id, "Approved")}
+                          >
+                            Approve
+                          </button>
+                          <button
+                            className="fine-management-reject-btn"
+                            onClick={() => handleStatusChange(fine.id, "Rejected")}
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
+                      {fine.status === "Approved" && (
                         <button
-                          className="fine-management-approve-btn"
-                          onClick={() => handleStatusChange(fine.id, "Approved")}
+                          className="fine-management-report-btn"
+                          onClick={() => handleGenerateReport(fine.id)}
                         >
-                          Approve
+                          Generate Report
                         </button>
-                        <button
-                          className="fine-management-reject-btn"
-                          onClick={() => handleStatusChange(fine.id, "Rejected")}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-                    {fine.status === "Approved" && (
+                      )}
                       <button
-                        className="fine-management-report-btn"
-                        onClick={() => handleGenerateReport(fine.id)}
+                        className="fine-management-delete-btn"
+                        onClick={() => handleDeleteFine(fine.id)}
                       >
-                        Generate Report
+                        Delete
                       </button>
-                    )}
-                  </div>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="9" className="fine-management-no-data">
+                  No fines found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

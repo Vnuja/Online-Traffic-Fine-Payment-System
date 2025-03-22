@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import "../Admin/AdminLogin.css";  // We'll create this CSS file
+
+
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -9,6 +12,7 @@ const schema = yup.object().shape({
 });
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,16 +22,31 @@ const AdminLogin = () => {
   });
 
   const onSubmit = async (data) => {
-    // Here you would typically send a POST request to the backend to login
-    // Example with axios (uncomment and replace with your API)
-    // try {
-    //   const response = await axios.post('/api/admin/login', data);
-    //   localStorage.setItem("token", response.data.token);
-    //   navigate("/admin-dashboard");
-    // } catch (error) {
-    //   alert("Login failed");
-    // }
-    console.log(data); // For now, just log the data
+    try {
+      // Get registered admins from localStorage
+      const registeredAdmins = JSON.parse(localStorage.getItem("registeredAdmins") || "[]");
+      
+      // Check if the credentials match any registered admin
+      const admin = registeredAdmins.find(
+        admin => admin.email === data.email && admin.password === data.password
+      );
+
+      if (admin) {
+        localStorage.setItem("adminToken", "mock-token");
+        localStorage.setItem("currentAdmin", JSON.stringify(admin));
+        navigate("/admin/dashboard");
+      } else {
+        alert("Invalid credentials. Please check your email and password.");
+      }
+      
+      // Uncomment when backend is ready
+      // const response = await axios.post('/api/admin/login', data);
+      // localStorage.setItem("adminToken", response.data.token);
+      // navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    }
   };
 
   return (

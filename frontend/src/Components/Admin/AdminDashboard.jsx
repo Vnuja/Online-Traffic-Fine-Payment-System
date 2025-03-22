@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalFines: 0,
     pendingFines: 0,
@@ -11,19 +14,59 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    // Here you would typically fetch dashboard data from your backend
-    // For now, we're using mock data
-    setStats({
-      totalFines: 150,
-      pendingFines: 45,
-      collectedFines: 105,
-      recentUsers: [
-        { id: 1, name: "John Smith", fineAmount: 5000, status: "Pending" },
-        { id: 2, name: "Jane Doe", fineAmount: 3000, status: "Paid" },
-        { id: 3, name: "Mike Johnson", fineAmount: 7500, status: "Pending" },
-      ],
-    });
-  }, []);
+    // Check if admin is authenticated
+    const adminToken = localStorage.getItem("adminToken");
+    if (!adminToken) {
+      navigate("/admin/login");
+      return;
+    }
+    fetchDashboardData();
+  }, [navigate]);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      // For testing, using mock data until backend is ready
+      const mockData = {
+        totalFines: 150,
+        pendingFines: 45,
+        collectedFines: 105,
+        recentUsers: [
+          {
+            id: 1,
+            name: "John Doe",
+            fineAmount: 5000,
+            status: "Pending"
+          },
+          {
+            id: 2,
+            name: "Jane Smith",
+            fineAmount: 3000,
+            status: "Paid"
+          }
+        ]
+      };
+      setStats(mockData);
+      // Uncomment when backend is ready
+      // const response = await axios.get('/api/admin/dashboard', {
+      //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
+      // });
+      // setStats(response.data);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    navigate("/admin/login");
+  };
+
+  if (loading) {
+    return <div className="admin-dashboard-loading">Loading...</div>;
+  }
 
   return (
     <div className="admin-dashboard">
@@ -32,19 +75,21 @@ const AdminDashboard = () => {
           <h1>Admin Dashboard</h1>
         </div>
         <div className="admin-dashboard-nav-links">
-          <Link to="/admin/profile" className="admin-dashboard-nav-link">
+          <button onClick={() => navigate("/admin/profile")} className="admin-dashboard-nav-link">
             Profile
-          </Link>
-          <Link to="/admin/fines" className="admin-dashboard-nav-link">
+          </button>
+          <button onClick={() => navigate("/admin/fines")} className="admin-dashboard-nav-link">
             Fine Management
-          </Link>
-          <Link to="/admin/users" className="admin-dashboard-nav-link">
+          </button>
+          <button onClick={() => navigate("/admin/users")} className="admin-dashboard-nav-link">
             User Monitoring
-          </Link>
-          <Link to="/admin/reports" className="admin-dashboard-nav-link">
+          </button>
+          <button onClick={() => navigate("/admin/reports")} className="admin-dashboard-nav-link">
             Reports
-          </Link>
-          <button className="admin-dashboard-logout-btn">Logout</button>
+          </button>
+          <button onClick={handleLogout} className="admin-dashboard-logout-btn">
+            Logout
+          </button>
         </div>
       </nav>
 
@@ -78,27 +123,38 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {stats.recentUsers.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>Rs. {user.fineAmount}</td>
-                    <td>
-                      <span
-                        className={`admin-dashboard-status ${
-                          user.status === "Paid" ? "paid" : "pending"
-                        }`}
-                      >
-                        {user.status}
-                      </span>
-                    </td>
-                    <td>
-                      <button className="admin-dashboard-action-btn">
-                        View Details
-                      </button>
+                {stats.recentUsers.length > 0 ? (
+                  stats.recentUsers.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.name}</td>
+                      <td>Rs. {user.fineAmount}</td>
+                      <td>
+                        <span
+                          className={`admin-dashboard-status ${
+                            user.status === "Paid" ? "paid" : "pending"
+                          }`}
+                        >
+                          {user.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          className="admin-dashboard-action-btn"
+                          onClick={() => navigate(`/admin/fines/${user.id}`)}
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="admin-dashboard-no-data">
+                      No recent users found
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

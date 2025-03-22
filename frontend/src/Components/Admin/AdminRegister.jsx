@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import "../Admin/AdminRegister.css";
 
 const schema = yup.object().shape({
@@ -18,6 +19,7 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,8 +28,19 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      // For testing, store the registered admin in localStorage
+      const registeredAdmins = JSON.parse(localStorage.getItem("registeredAdmins") || "[]");
+      registeredAdmins.push(data);
+      localStorage.setItem("registeredAdmins", JSON.stringify(registeredAdmins));
+      
+      alert("Registration successful! Please login.");
+      navigate("/admin/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -83,8 +96,8 @@ const Register = () => {
             Register
           </button>
           <div>
-            <p ClassName="Link-to-login">
-              Already have an Account? <a href="AdminLogin.jsx" >Login</a>
+            <p className="Link-to-login">
+              Already have an Account? <a href="/admin/login">Login</a>
             </p>
           </div>
         </form>
