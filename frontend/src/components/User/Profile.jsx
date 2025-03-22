@@ -69,7 +69,7 @@ const Profile = () => {
             {activeTab === "profile" && (
               <div>
                 <h5 className="text-lg font-bold">Profile Details</h5>
-                <table className="w-full mt-2 border-collapse border border-gray-300">
+                <table className="w-full mt-2 border-collapse border border-black">
                   <tbody>
                     {[
                       ["First Name", "John"],
@@ -80,9 +80,9 @@ const Profile = () => {
                       ["Gender", "Male"],
                       ["Address", "Colombo, Sri Lanka"],
                     ].map(([label, value], index) => (
-                      <tr key={index} className="border-b">
-                        <th className="p-2 text-left font-semibold">{label}</th>
-                        <td className="p-2">{value}</td>
+                      <tr key={index} className="border-b border-black">
+                        <th className="p-2 text-left font-semibold border border-black">{label}</th>
+                        <td className="p-2 border border-black">{value}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -102,31 +102,31 @@ const Profile = () => {
                   Based on your driving history, the system predicts possible
                   violations and risk level.
                 </p>
-                <table className="w-full mt-2 border-collapse border border-gray-300">
+                <table className="w-full mt-2 border-collapse border border-black">
                   <tbody>
-                    <tr className="border-b">
-                      <th className="p-2 text-left font-semibold">
+                    <tr className="border-b border-black">
+                      <th className="p-2 text-left font-semibold border border-black">
                         Future Risk Level
                       </th>
-                      <td className="p-2">
+                      <td className="p-2 border border-black">
                         <span className="px-3 py-1 rounded-lg bg-yellow-500 text-black">
                           Medium
                         </span>
                       </td>
                     </tr>
-                    <tr className="border-b">
-                      <th className="p-2 text-left font-semibold">
+                    <tr className="border-b border-black">
+                      <th className="p-2 text-left font-semibold border border-black">
                         Predicted Violations
                       </th>
-                      <td className="p-2">
+                      <td className="p-2 border border-black">
                         Speeding, Traffic Signal Violation
                       </td>
                     </tr>
                     <tr>
-                      <th className="p-2 text-left font-semibold">
+                      <th className="p-2 text-left font-semibold border border-black">
                         Suggestions
                       </th>
-                      <td className="p-2">
+                      <td className="p-2 border border-black">
                         Reduce speed in urban areas and follow traffic signals
                         carefully.
                       </td>

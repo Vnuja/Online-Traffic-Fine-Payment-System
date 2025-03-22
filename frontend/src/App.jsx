@@ -6,6 +6,7 @@ import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
 import Profile from "./components/User/Profile";
 import Update from "./components/User/Update";
+import UploadFineReceipt from "./components/User/UploadFineReceipt";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/update" element={<Update />} />
+        <Route path="/upload-fine-receipt" element={<UploadFineReceipt />} />
       </Routes>
     </div>
   )
