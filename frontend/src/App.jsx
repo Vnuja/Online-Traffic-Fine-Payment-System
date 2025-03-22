@@ -6,7 +6,7 @@ import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
 
 //Admin Management System
-import AdminLogin from "./components/Admin/AdminLogin";
+import AdminLogin from "./components/Admin/Admin/Login";
 import AdminRegister from "./components/Admin/AdminRegister";
 
 function App() {
