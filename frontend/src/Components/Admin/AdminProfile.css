@@ -46,6 +46,7 @@
 }
 
 .admin-profile-input {
+  color: #000000;
   padding: 0.8rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -84,6 +85,7 @@
 .admin-profile-save-btn,
 .admin-profile-delete-btn,
 .admin-profile-cancel-btn {
+  margin: 10px;
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 8px;
@@ -139,4 +141,72 @@
   color: #8A2BE2;
   position: relative;
   z-index: 7;
+}
+
+.admin-management-section {
+  margin: 50px;
+  background-color: #1f0060;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 3;
+}
+
+.admin-management-section h2 {
+  color: #c382ff;
+  margin-bottom: 1.5rem;
+  font-size: 24px;
+}
+
+.admin-list {
+  margin-top: 1.5rem;
+}
+
+.admin-list h3 {
+  color: #c382ff;
+  margin-bottom: 1rem;
+  font-size: 20px;
+}
+
+.admin-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-list th,
+.admin-list td {
+  padding: 1rem;
+  text-align: left;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-list th {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+}
+
+.admin-list tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.admin-edit-form {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-edit-form h3 {
+  color: #c382ff;
+  margin-bottom: 1.5rem;
+  font-size: 20px;
+}
+
+.admin-profile-actions button {
+  margin-right: 0.5rem;
 } 

@@ -6,7 +6,6 @@ const UserMonitoring = () => {
   const [activeUsers, setActiveUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [userActivities, setUserActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
   // Mock data for testing
@@ -26,7 +25,6 @@ const UserMonitoring = () => {
     // Simulate fetching active users
     const fetchActiveUsers = () => {
       setActiveUsers(mockActiveUsers);
-      setLoading(false);
     };
 
     fetchActiveUsers();
