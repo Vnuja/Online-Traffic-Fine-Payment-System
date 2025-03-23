@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 import "./FineManagement.css";
-import logo from "../../assets/2.png"
 
 const FineManagement = () => {
   const navigate = useNavigate();
@@ -124,9 +123,7 @@ const FineManagement = () => {
     <div className="fine-management">
       <Navbar />
       <div className="fine-management-content">
-        <div className="fine-management-header">
-          <img src={logo} alt="Logo" className="logo" />
-          <h1>Fine Management</h1>
+        <div className="fine-management-header top_layer">
           <div className="fine-management-filters">
             <select
               value={filter}
@@ -148,7 +145,7 @@ const FineManagement = () => {
           </div>
         </div>
 
-        <div className="fine-management-table-container">
+        <div className="fine-management-table-container top_layer">
           <table className="fine-management-table">
             <thead>
               <tr>

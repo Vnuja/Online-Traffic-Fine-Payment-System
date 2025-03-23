@@ -64,10 +64,10 @@ const AdminProfile = () => {
 
   return (
     <div className="admin-profile">
-      <div className="admin-profile-content">
-        <h1>Admin Profile</h1>
+      
         <div className="admin-profile-info">
           <div className="admin-profile-field">
+          <h1>Admin Profile</h1>
             <label>Username</label>
             {isEditing ? (
               <input
@@ -146,7 +146,7 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 
