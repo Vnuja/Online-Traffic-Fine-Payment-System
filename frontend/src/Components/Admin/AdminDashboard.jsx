@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./Navbar";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -59,40 +60,13 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/admin/login");
-  };
-
   if (loading) {
     return <div className="admin-dashboard-loading">Loading...</div>;
   }
 
   return (
     <div className="admin-dashboard">
-      <nav className="admin-dashboard-nav">
-        <div className="admin-dashboard-nav-brand">
-          <h1>Admin Dashboard</h1>
-        </div>
-        <div className="admin-dashboard-nav-links">
-          <button onClick={() => navigate("/admin/profile")} className="admin-dashboard-nav-link">
-            Profile
-          </button>
-          <button onClick={() => navigate("/admin/fines")} className="admin-dashboard-nav-link">
-            Fine Management
-          </button>
-          <button onClick={() => navigate("/admin/users")} className="admin-dashboard-nav-link">
-            User Monitoring
-          </button>
-          <button onClick={() => navigate("/admin/reports")} className="admin-dashboard-nav-link">
-            Reports
-          </button>
-          <button onClick={handleLogout} className="admin-dashboard-logout-btn">
-            Logout
-          </button>
-        </div>
-      </nav>
-
+      <Navbar />
       <main className="admin-dashboard-main">
         <div className="admin-dashboard-stats">
           <div className="admin-dashboard-stat-card">

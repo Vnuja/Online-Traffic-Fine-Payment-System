@@ -1,57 +1,54 @@
-.admin-profile-container {
-  z-index: 99;
+.admin-profile {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
-  padding: 2rem;
+  background-color: #f5f5f5;
+  position: relative;
+  z-index: 1;
 }
 
-.admin-profile-box {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(138, 43, 226, 0.1);
-  padding: 2rem;
-  width: 100%;
-  max-width: 600px;
+.admin-profile-content {
+  padding: 6rem 2rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
-.admin-profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.admin-profile-title {
+.admin-profile h1 {
   color: #8A2BE2;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
 }
 
-.admin-profile-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.admin-profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.admin-profile-info {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 3;
 }
 
 .admin-profile-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 4;
 }
 
-.admin-profile-label {
-  color: #4a4a4a;
+.admin-profile-field label {
+  display: block;
+  color: #666;
+  margin-bottom: 0.5rem;
   font-weight: 500;
-  font-size: 0.9rem;
+}
+
+.admin-profile-field p {
+  color: #333;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0.8rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
 }
 
 .admin-profile-input {
@@ -60,6 +57,8 @@
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
+  width: 100%;
+  background-color: white;
 }
 
 .admin-profile-input:focus {
@@ -79,6 +78,14 @@
   margin: 0;
 }
 
+.admin-profile-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 5;
+}
+
 .admin-profile-edit-btn,
 .admin-profile-save-btn,
 .admin-profile-delete-btn,
@@ -89,6 +96,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 6;
 }
 
 .admin-profile-edit-btn {
@@ -103,7 +112,6 @@
 .admin-profile-save-btn {
   background-color: #8A2BE2;
   color: white;
-  margin-top: 1rem;
 }
 
 .admin-profile-save-btn:hover {
@@ -126,4 +134,15 @@
 
 .admin-profile-cancel-btn:hover {
   background-color: #5a6268;
+}
+
+.admin-profile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: #8A2BE2;
+  position: relative;
+  z-index: 7;
 } 

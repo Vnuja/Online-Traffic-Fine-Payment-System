@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./Navbar";
 import "./FineManagement.css";
+import logo from "../../assets/2.png"
 
 const FineManagement = () => {
   const navigate = useNavigate();
@@ -120,107 +122,111 @@ const FineManagement = () => {
 
   return (
     <div className="fine-management">
-      <div className="fine-management-header">
-        <h1>Fine Management</h1>
-        <div className="fine-management-filters">
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="fine-management-filter"
-          >
-            <option value="all">All Fines</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Search by driver name or license number..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="fine-management-search"
-          />
+      <Navbar />
+      <div className="fine-management-content">
+        <div className="fine-management-header">
+          <img src={logo} alt="Logo" className="logo" />
+          <h1>Fine Management</h1>
+          <div className="fine-management-filters">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="fine-management-filter"
+            >
+              <option value="all">All Fines</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <input
+              type="text"
+              placeholder="Search by driver name or license number..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="fine-management-search"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="fine-management-table-container">
-        <table className="fine-management-table">
-          <thead>
-            <tr>
-              <th>Fine ID</th>
-              <th>Driver Name</th>
-              <th>License Number</th>
-              <th>Fine Type</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Location</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredFines.length > 0 ? (
-              filteredFines.map((fine) => (
-                <tr key={fine.id}>
-                  <td>{fine.id}</td>
-                  <td>{fine.driverName}</td>
-                  <td>{fine.licenseNumber}</td>
-                  <td>{fine.fineType}</td>
-                  <td>Rs. {fine.amount}</td>
-                  <td>{fine.date}</td>
-                  <td>{fine.location}</td>
-                  <td>
-                    <span
-                      className={`fine-management-status ${fine.status.toLowerCase()}`}
-                    >
-                      {fine.status}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="fine-management-actions">
-                      {fine.status === "Pending" && (
-                        <>
-                          <button
-                            className="fine-management-approve-btn"
-                            onClick={() => handleStatusChange(fine.id, "Approved")}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            className="fine-management-reject-btn"
-                            onClick={() => handleStatusChange(fine.id, "Rejected")}
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {fine.status === "Approved" && (
-                        <button
-                          className="fine-management-report-btn"
-                          onClick={() => handleGenerateReport(fine.id)}
-                        >
-                          Generate Report
-                        </button>
-                      )}
-                      <button
-                        className="fine-management-delete-btn"
-                        onClick={() => handleDeleteFine(fine.id)}
+        <div className="fine-management-table-container">
+          <table className="fine-management-table">
+            <thead>
+              <tr>
+                <th>Fine ID</th>
+                <th>Driver Name</th>
+                <th>License Number</th>
+                <th>Fine Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredFines.length > 0 ? (
+                filteredFines.map((fine) => (
+                  <tr key={fine.id}>
+                    <td>{fine.id}</td>
+                    <td>{fine.driverName}</td>
+                    <td>{fine.licenseNumber}</td>
+                    <td>{fine.fineType}</td>
+                    <td>Rs. {fine.amount}</td>
+                    <td>{fine.date}</td>
+                    <td>{fine.location}</td>
+                    <td>
+                      <span
+                        className={`fine-management-status ${fine.status.toLowerCase()}`}
                       >
-                        Delete
-                      </button>
-                    </div>
+                        {fine.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="fine-management-actions">
+                        {fine.status === "Pending" && (
+                          <>
+                            <button
+                              className="fine-management-approve-btn"
+                              onClick={() => handleStatusChange(fine.id, "Approved")}
+                            >
+                              Approve
+                            </button>
+                            <button
+                              className="fine-management-reject-btn"
+                              onClick={() => handleStatusChange(fine.id, "Rejected")}
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
+                        {fine.status === "Approved" && (
+                          <button
+                            className="fine-management-report-btn"
+                            onClick={() => handleGenerateReport(fine.id)}
+                          >
+                            Generate Report
+                          </button>
+                        )}
+                        <button
+                          className="fine-management-delete-btn"
+                          onClick={() => handleDeleteFine(fine.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="9" className="fine-management-no-data">
+                    No fines found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="9" className="fine-management-no-data">
-                  No fines found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

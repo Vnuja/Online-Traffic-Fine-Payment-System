@@ -1,6 +1,8 @@
 import express from "express";
 import { registerAdmin, loginAdmin } from "../Controllers/adminController.js";
 import { check } from "express-validator";
+import { body, validationResult } from 'express-validator';
+
 
 const router = express.Router();
 

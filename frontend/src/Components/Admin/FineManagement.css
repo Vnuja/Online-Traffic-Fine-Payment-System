@@ -1,7 +1,11 @@
 .fine-management {
-  z-index: 99;
-  padding: 2rem;
-  max-width: 1400px;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.fine-management-content {
+  padding: 6rem 2rem 2rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -10,6 +14,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+}
+
+.logo{
+  width: 65px;
 }
 
 .fine-management-header h1 {

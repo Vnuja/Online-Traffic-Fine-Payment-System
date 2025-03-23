@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./ReportsAnalytics.css";
+import AdminNavbar from "./Header";
 
 const ReportsAnalytics = () => {
   const [timeRange, setTimeRange] = useState("month"); // day, week, month, year
@@ -59,6 +60,8 @@ const ReportsAnalytics = () => {
   };
 
   return (
+    <>
+    <AdminNavbar /> 
     <div className="reports-analytics">
       <div className="reports-analytics-header">
         <h1>Reports & Analytics</h1>
@@ -171,6 +174,7 @@ const ReportsAnalytics = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

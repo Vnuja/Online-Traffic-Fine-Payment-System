@@ -1,163 +1,150 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import "./AdminProfile.css";
 
-const schema = yup.object().shape({
-  officerName: yup.string().required("Officer name is required"),
-  policeId: yup.string().required("Police ID is required"),
-  workingBranch: yup.string().required("Working branch is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  mobile: yup
-    .string()
-    .matches(/^[0-9]{10}$/, "Invalid mobile number")
-    .required("Mobile number is required"),
-});
-
 const AdminProfile = () => {
+  const navigate = useNavigate();
+  const [admin, setAdmin] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState({
-    officerName: "John Doe",
-    policeId: "POL123456",
-    workingBranch: "Traffic Division",
-    email: "john.doe@police.gov",
-    mobile: "0771234567",
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: profileData,
-  });
+  const [editedAdmin, setEditedAdmin] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Here you would typically fetch the admin's profile data from your backend
-    // For now, we're using the mock data from profileData state
-    reset(profileData);
-  }, [profileData, reset]);
+    const currentAdmin = JSON.parse(localStorage.getItem("currentAdmin"));
+    if (!currentAdmin) {
+      navigate("/admin/login");
+      return;
+    }
+    setAdmin(currentAdmin);
+    setEditedAdmin(currentAdmin);
+    setLoading(false);
+  }, [navigate]);
 
-  const onSubmit = async (data) => {
-    try {
-      // Here you would typically send a PUT request to update the profile
-      // const response = await axios.put('/api/admin/profile', data);
-      setProfileData(data);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile:", error);
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    const registeredAdmins = JSON.parse(localStorage.getItem("registeredAdmins") || "[]");
+    const updatedAdmins = registeredAdmins.map(a => 
+      a.email === admin.email ? editedAdmin : a
+    );
+    localStorage.setItem("registeredAdmins", JSON.stringify(updatedAdmins));
+    localStorage.setItem("currentAdmin", JSON.stringify(editedAdmin));
+    setAdmin(editedAdmin);
+    setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
+      const registeredAdmins = JSON.parse(localStorage.getItem("registeredAdmins") || "[]");
+      const updatedAdmins = registeredAdmins.filter(a => a.email !== admin.email);
+      localStorage.setItem("registeredAdmins", JSON.stringify(updatedAdmins));
+      localStorage.removeItem("currentAdmin");
+      localStorage.removeItem("adminToken");
+      navigate("/admin/login");
     }
   };
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete your profile?")) {
-      try {
-        // Here you would typically send a DELETE request to remove the profile
-        // await axios.delete('/api/admin/profile');
-        // Handle successful deletion (e.g., redirect to login)
-      } catch (error) {
-        console.error("Error deleting profile:", error);
-      }
-    }
+  const handleCancel = () => {
+    setEditedAdmin(admin);
+    setIsEditing(false);
   };
+
+  const handleChange = (e) => {
+    setEditedAdmin({
+      ...editedAdmin,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  if (loading) {
+    return <div className="admin-profile-loading">Loading...</div>;
+  }
 
   return (
-    <div className="admin-profile-container">
-      <div className="admin-profile-box">
-        <div className="admin-profile-header">
-          <h2 className="admin-profile-title">Admin Profile</h2>
+    <div className="admin-profile">
+      <div className="admin-profile-content">
+        <h1>Admin Profile</h1>
+        <div className="admin-profile-info">
+          <div className="admin-profile-field">
+            <label>Username</label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="username"
+                value={editedAdmin.username}
+                onChange={handleChange}
+                className="admin-profile-input"
+              />
+            ) : (
+              <p>{admin.username}</p>
+            )}
+          </div>
+          <div className="admin-profile-field">
+            <label>Email</label>
+            {isEditing ? (
+              <input
+                type="email"
+                name="email"
+                value={editedAdmin.email}
+                onChange={handleChange}
+                className="admin-profile-input"
+              />
+            ) : (
+              <p>{admin.email}</p>
+            )}
+          </div>
+          <div className="admin-profile-field">
+            <label>NIC Number</label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="nic"
+                value={editedAdmin.nic}
+                onChange={handleChange}
+                className="admin-profile-input"
+              />
+            ) : (
+              <p>{admin.nic}</p>
+            )}
+          </div>
+          <div className="admin-profile-field">
+            <label>Mobile Number</label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="mobile"
+                value={editedAdmin.mobile}
+                onChange={handleChange}
+                className="admin-profile-input"
+              />
+            ) : (
+              <p>{admin.mobile}</p>
+            )}
+          </div>
           <div className="admin-profile-actions">
-            {!isEditing ? (
+            {isEditing ? (
               <>
-                <button
-                  className="admin-profile-edit-btn"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit Profile
+                <button onClick={handleSave} className="admin-profile-save-btn">
+                  Save Changes
                 </button>
-                <button
-                  className="admin-profile-delete-btn"
-                  onClick={handleDelete}
-                >
-                  Delete Profile
+                <button onClick={handleCancel} className="admin-profile-cancel-btn">
+                  Cancel
                 </button>
               </>
             ) : (
-              <button
-                className="admin-profile-cancel-btn"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
+              <>
+                <button onClick={handleEdit} className="admin-profile-edit-btn">
+                  Edit Profile
+                </button>
+                <button onClick={handleDelete} className="admin-profile-delete-btn">
+                  Delete Profile
+                </button>
+              </>
             )}
           </div>
         </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="admin-profile-form">
-          <div className="admin-profile-field">
-            <label className="admin-profile-label">Officer Name</label>
-            <input
-              type="text"
-              {...register("officerName")}
-              className="admin-profile-input"
-              disabled={!isEditing}
-            />
-            <p className="admin-profile-error">{errors.officerName?.message}</p>
-          </div>
-
-          <div className="admin-profile-field">
-            <label className="admin-profile-label">Police ID</label>
-            <input
-              type="text"
-              {...register("policeId")}
-              className="admin-profile-input"
-              disabled={!isEditing}
-            />
-            <p className="admin-profile-error">{errors.policeId?.message}</p>
-          </div>
-
-          <div className="admin-profile-field">
-            <label className="admin-profile-label">Working Branch</label>
-            <input
-              type="text"
-              {...register("workingBranch")}
-              className="admin-profile-input"
-              disabled={!isEditing}
-            />
-            <p className="admin-profile-error">{errors.workingBranch?.message}</p>
-          </div>
-
-          <div className="admin-profile-field">
-            <label className="admin-profile-label">Email</label>
-            <input
-              type="email"
-              {...register("email")}
-              className="admin-profile-input"
-              disabled={!isEditing}
-            />
-            <p className="admin-profile-error">{errors.email?.message}</p>
-          </div>
-
-          <div className="admin-profile-field">
-            <label className="admin-profile-label">Mobile Number</label>
-            <input
-              type="text"
-              {...register("mobile")}
-              className="admin-profile-input"
-              disabled={!isEditing}
-            />
-            <p className="admin-profile-error">{errors.mobile?.message}</p>
-          </div>
-
-          {isEditing && (
-            <button type="submit" className="admin-profile-save-btn">
-              Save Changes
-            </button>
-          )}
-        </form>
       </div>
     </div>
   );
