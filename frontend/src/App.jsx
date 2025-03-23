@@ -16,6 +16,11 @@ import AdminProfile from "./components/Admin/AdminProfile";
 import FineManagement from "./components/Admin/FineManagement";
 import UserMonitoring from "./components/Admin/UserMonitoring";
 
+//Prediction management System
+import GetStart from "./components/Predication/GetStart";
+import About from "./components/Predication/About"
+import Services from "./components/Predication/Services";
+
 function App() {
   const location = useLocation();
 
@@ -50,6 +55,11 @@ function App() {
         <Route path="/admin/profile" element={<AdminProfile />} />
         <Route path="/admin/fines" element={<FineManagement />} />
         <Route path="/admin/users" element={<UserMonitoring />} />
+
+        {/* Prediction */}
+        <Route path="/getstart" element={<GetStart />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
 
       </Routes>
     </div>
