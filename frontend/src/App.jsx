@@ -11,6 +11,7 @@ import AdminRegister from "./components/Admin/AdminRegister";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminProfile from "./components/Admin/AdminProfile";
 import FineManagement from "./components/Admin/FineManagement";
+import UserMonitoring from "./components/Admin/UserMonitoring";
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
         <Route path="/admin/fines" element={<FineManagement />} />
+        <Route path="/admin/users" element={<UserMonitoring />} />
 
       </Routes>
     </div>
