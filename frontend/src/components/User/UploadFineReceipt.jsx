@@ -18,21 +18,21 @@ const UploadFineReceipt = () => {
     if (selectedFile) {
       const fileSize = selectedFile.size / 1024 / 1024;
       const fileType = selectedFile.type;
-      
+
       if (fileSize > 2) {
         setMessage("File size exceeds 2MB limit.");
         setMessageType("error");
         setFile(null);
         return;
       }
-      
+
       if (!["image/jpeg", "image/png", "application/pdf"].includes(fileType)) {
         setMessage("Invalid file type. Only .jpg, .png, .pdf are allowed.");
         setMessageType("error");
         setFile(null);
         return;
       }
-      
+
       setMessage("File uploaded successfully.");
       setMessageType("success");
       setFile(selectedFile);
@@ -40,7 +40,13 @@ const UploadFineReceipt = () => {
   };
 
   const submitFineProof = () => {
-    console.log("Submitting fine proof...");
+    if (!vehicleNumber || !licenseNumber || !section || !file) {
+      setMessage("Please fill all the required fields and upload the fine receipt.");
+      setMessageType("error");
+      return;
+    }
+
+    setMessage(""); // Clear any previous error messages
     navigate("/payment");
   };
 
@@ -49,7 +55,7 @@ const UploadFineReceipt = () => {
       <div className="absolute top-4 left-4">
         <Link to="/" className="text-[#C68EFD] hover:underline">← Back to Home</Link>
       </div>
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -124,7 +130,7 @@ const UploadFineReceipt = () => {
               </label>
             </div>
           </div>
-          
+
           {message && (
             <p className={`mt-2 text-sm ${messageType === "error" ? "text-red-400" : "text-green-400"}`}>
               {messageType === "error" ? <AlertCircle className="inline-block mr-1" /> : null} {message}
