@@ -4,6 +4,9 @@ import FloatingShape from "./components/User Tools/FloatingShape";
 //User Management System
 import SignUp from "./components/User/SignUp";
 import Login from "./components/User/Login";
+import Profile from "./components/User/Profile";
+import Update from "./components/User/Update";
+import UploadFineReceipt from "./components/User/UploadFineReceipt";
 
 //Admin Management System
 import AdminLogin from "./components/Admin/AdminLogin";
@@ -14,6 +17,7 @@ import FineManagement from "./components/Admin/FineManagement";
 import UserMonitoring from "./components/Admin/UserMonitoring";
 
 function App() {
+<<<<<<< HEAD
   const location = useLocation();
 
   // Apply different backgrounds based on the route
@@ -21,6 +25,8 @@ function App() {
     location.pathname === "/admin/register" ||
     location.pathname === "/admin/login";
 
+=======
+>>>>>>> 71b02c1640d914766fae89499dc67d18b08d54b8
   return (
     <div
       className={`min-h-screen flex items-center justify-center relative overflow-hidden 
@@ -36,6 +42,7 @@ function App() {
         {/* User Routes */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+<<<<<<< HEAD
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />
@@ -45,6 +52,11 @@ function App() {
         <Route path="/admin/fines" element={<FineManagement />} />
         <Route path="/admin/users" element={<UserMonitoring />} />
 
+=======
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/update" element={<Update />} />
+        <Route path="/upload-fine-receipt" element={<UploadFineReceipt />} />
+>>>>>>> 71b02c1640d914766fae89499dc67d18b08d54b8
       </Routes>
     </div>
   );
