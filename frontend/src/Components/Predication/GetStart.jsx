@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../nav/Navbar';
 import Footer from '../nav/Footer';
 import './GetStart.css';
@@ -42,7 +43,9 @@ function GetStart() {
             A secure and convenient way to check and pay your traffic fines online. <br />
             No more long queues—pay in just a few clicks!
           </p>
-          <button className="get-started">Get Started</button>
+          <Link to="/signup">
+            <button className="get-started">Get Started</button>
+          </Link>
         </div>
 
         {/* Image Slideshow */}

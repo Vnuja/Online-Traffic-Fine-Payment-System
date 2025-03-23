@@ -57,7 +57,7 @@ function App() {
         <Route path="/admin/users" element={<UserMonitoring />} />
 
         {/* Prediction */}
-        <Route path="/getstart" element={<GetStart />} />
+        <Route path="/" element={<GetStart />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
 
