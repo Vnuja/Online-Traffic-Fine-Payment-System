@@ -1,30 +1,44 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Pencil, Trash2, X, Check, UserCog, Search } from "lucide-react";
+import axios from "axios";
+import { useAuthStore } from "../User Tools/authStore";
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phoneNumber: "",
     password: "",
-    role: "admin"
+    nic: "",
+    mobile: ""
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { token } = useAuthStore();
 
-  // Load admins from localStorage on component mount
+  // Load admins from API
   useEffect(() => {
-    const storedAdmins = JSON.parse(localStorage.getItem("admins") || "[]");
-    setAdmins(storedAdmins);
+    fetchAdmins();
   }, []);
 
-  // Save admins to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("admins", JSON.stringify(admins));
-  }, [admins]);
+  const fetchAdmins = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:5000/api/admin", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAdmins(response.data);
+      setError("");
+    } catch (err) {
+      setError("Failed to fetch admins");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,79 +48,98 @@ const AdminManagement = () => {
     }));
   };
 
-  const handleAddAdmin = (e) => {
+  const handleAddAdmin = async (e) => {
     e.preventDefault();
-    const newAdmin = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString()
-    };
-
-    setAdmins(prev => [...prev, newAdmin]);
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      role: "admin"
-    });
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:5000/api/admin/register", formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        nic: "",
+        mobile: ""
+      });
+      fetchAdmins();
+      setError("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to add admin");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEdit = (admin) => {
-    setEditingAdmin(admin.id);
+    setEditingAdmin(admin._id);
     setFormData({
-      ...admin,
+      name: admin.name,
+      email: admin.email,
+      nic: admin.nic,
+      mobile: admin.mobile,
       password: "" // Clear password for security
     });
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    setAdmins(prev =>
-      prev.map(admin =>
-        admin.id === editingAdmin 
-          ? { 
-              ...admin, 
-              ...formData,
-              password: formData.password || admin.password // Keep old password if new one is not provided
-            } 
-          : admin
-      )
-    );
-    setEditingAdmin(null);
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      role: "admin"
-    });
+    try {
+      setLoading(true);
+      await axios.put(`http://localhost:5000/api/admin/${editingAdmin}`, formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setEditingAdmin(null);
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        nic: "",
+        mobile: ""
+      });
+      fetchAdmins();
+      setError("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update admin");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDelete = (adminId) => {
+  const handleDelete = async (adminId) => {
     if (window.confirm("Are you sure you want to delete this admin?")) {
-      setAdmins(prev => prev.filter(admin => admin.id !== adminId));
+      try {
+        setLoading(true);
+        await axios.delete(`http://localhost:5000/api/admin/${adminId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        fetchAdmins();
+        setError("");
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to delete admin");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const handleCancelEdit = () => {
     setEditingAdmin(null);
     setFormData({
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
-      phoneNumber: "",
       password: "",
-      role: "admin"
+      nic: "",
+      mobile: ""
     });
   };
 
   // Filter admins based on search query
   const filteredAdmins = admins.filter(admin => 
-    admin.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    admin.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    admin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     admin.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -129,6 +162,12 @@ const AdminManagement = () => {
         </div>
       </div>
 
+      {error && (
+        <div className="mb-4 p-3 bg-red-500 text-white rounded-lg">
+          {error}
+        </div>
+      )}
+
       {/* Existing Admins Table */}
       <div className="mb-8 overflow-x-auto relative z-50">
         <table className="w-full text-white">
@@ -136,38 +175,46 @@ const AdminManagement = () => {
             <tr>
               <th className="px-4 py-3 text-left">Name</th>
               <th className="px-4 py-3 text-left">Email</th>
-              <th className="px-4 py-3 text-left">Phone</th>
-              <th className="px-4 py-3 text-left">Created At</th>
+              <th className="px-4 py-3 text-left">NIC</th>
+              <th className="px-4 py-3 text-left">Mobile</th>
               <th className="px-4 py-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredAdmins.map(admin => (
-              <tr key={admin.id} className="border-b border-gray-700 hover:bg-gray-700/50">
-                <td className="px-4 py-3">{admin.firstName} {admin.lastName}</td>
-                <td className="px-4 py-3">{admin.email}</td>
-                <td className="px-4 py-3">{admin.phoneNumber}</td>
-                <td className="px-4 py-3">
-                  {new Date(admin.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <div className="flex items-center justify-center space-x-2">
-                    <button
-                      onClick={() => handleEdit(admin)}
-                      className="p-1 text-blue-400 hover:text-blue-300 relative z-50"
-                    >
-                      <Pencil className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(admin.id)}
-                      className="p-1 text-red-400 hover:text-red-300 relative z-50"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                </td>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-4">Loading...</td>
               </tr>
-            ))}
+            ) : filteredAdmins.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center py-4">No admins found</td>
+              </tr>
+            ) : (
+              filteredAdmins.map(admin => (
+                <tr key={admin._id} className="border-b border-gray-700 hover:bg-gray-700/50">
+                  <td className="px-4 py-3">{admin.name}</td>
+                  <td className="px-4 py-3">{admin.email}</td>
+                  <td className="px-4 py-3">{admin.nic}</td>
+                  <td className="px-4 py-3">{admin.mobile}</td>
+                  <td className="px-4 py-3 text-center">
+                    <div className="flex items-center justify-center space-x-2">
+                      <button
+                        onClick={() => handleEdit(admin)}
+                        className="p-1 text-blue-400 hover:text-blue-300 relative z-50"
+                      >
+                        <Pencil className="w-5 h-5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(admin._id)}
+                        className="p-1 text-red-400 hover:text-red-300 relative z-50"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -176,19 +223,10 @@ const AdminManagement = () => {
       <form onSubmit={editingAdmin ? handleUpdate : handleAddAdmin} className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-50">
         <input
           type="text"
-          name="firstName"
-          value={formData.firstName}
+          name="name"
+          value={formData.name}
           onChange={handleInputChange}
-          placeholder="First Name"
-          className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleInputChange}
-          placeholder="Last Name"
+          placeholder="Full Name"
           className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
           required
         />
@@ -202,11 +240,20 @@ const AdminManagement = () => {
           required
         />
         <input
-          type="tel"
-          name="phoneNumber"
-          value={formData.phoneNumber}
+          type="text"
+          name="nic"
+          value={formData.nic}
           onChange={handleInputChange}
-          placeholder="Phone Number"
+          placeholder="NIC Number"
+          className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
+          required
+        />
+        <input
+          type="text"
+          name="mobile"
+          value={formData.mobile}
+          onChange={handleInputChange}
+          placeholder="Mobile Number"
           className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C68EFD]"
           required
         />
@@ -225,8 +272,9 @@ const AdminManagement = () => {
             whileTap={{ scale: 0.98 }}
             className="flex-1 py-2 bg-[#C68EFD] text-white rounded-lg hover:bg-[#B07CE5] transition-colors"
             type="submit"
+            disabled={loading}
           >
-            {editingAdmin ? "Update Admin" : "Add Admin"}
+            {loading ? "Processing..." : (editingAdmin ? "Update Admin" : "Add Admin")}
           </motion.button>
           {editingAdmin && (
             <motion.button

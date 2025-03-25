@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import { connectDB } from './DB/connectDB.js';
 import authRoutes from './Routes/auth.route.js';
-import adminRoutes from './Routes/adminRoutes.js'; // Ensure this is correctly referenced
+import adminRoutes from './Routes/adminRoutes.js';
 
 dotenv.config();
 
