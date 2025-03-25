@@ -3,8 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { connectDB } from './DB/connectDB.js';
+
+//User
 import authRoutes from './Routes/auth.route.js';
-import adminRoutes from './Routes/adminRoutes.js'; // Ensure this is correctly referenced
+
+//Admin
+import adminRoutes from './Routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -15,12 +19,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON request bodies
+app.use(cors());
+app.use(express.json());
 
-// Routes
+//User Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes); // Registering admin routes
+
+//Admin Routes
+app.use("/api/admin", adminRoutes);
 
 // Start Server
 app.listen(PORT, () => {

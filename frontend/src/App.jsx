@@ -19,7 +19,7 @@ import UserMonitoring from "./components/Admin/UserMonitoring";
 
 //Prediction management System
 import GetStart from "./components/Predication/GetStart";
-import About from "./components/Predication/About"
+import About from "./components/Predication/About";
 import Services from "./components/Predication/Services";
 
 function App() {
@@ -39,9 +39,11 @@ function App() {
             : "min-h-screen bg-gradient-to-b from-purple-800 via-purple-600 to-purple-300 flex items-center justify-center relative overflow-hidden" // Dark Cosmic Theme (User)
         }`}
     >
-      <FloatingShape />
-      <Routes>
+      <div className="absolute top-0 left-0 w-full h-full -z-10">
+        <FloatingShape />
+      </div>
 
+      <Routes>
         {/* User Routes */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
@@ -62,7 +64,6 @@ function App() {
         <Route path="/" element={<GetStart />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
-
       </Routes>
     </div>
   );
