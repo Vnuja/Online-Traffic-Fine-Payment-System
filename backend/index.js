@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-
 import { connectDB } from './DB/connectDB.js';
 import authRoutes from './Routes/auth.route.js';
 import adminRoutes from './Routes/adminRoutes.js';
@@ -9,20 +8,25 @@ import adminRoutes from './Routes/adminRoutes.js';
 dotenv.config();
 
 // Connect to Database first
-connectDB();
+// connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Connect to Database first
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+  });
+}).catch((error) => {
+  console.error("Database connection failed:", error);
+  process.exit(1);
+});
+
 // Middleware
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON request bodies
+app.use(cors());
+app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes); // Registering admin routes
-
-// Start Server
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-});
+app.use("/api/admin", adminRoutes);

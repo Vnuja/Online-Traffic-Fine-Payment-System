@@ -9,8 +9,8 @@ import Update from "./components/User/Update";
 import UploadFineReceipt from "./components/User/UploadFineReceipt";
 
 //Admin Management System
-import AdminLogin from "./components/Admin/AdminLogin";
-import AdminRegister from "./components/Admin/AdminRegister";
+import AdminLogin from "./Components/Admin/AdminLogin";
+import AdminRegister from "./Components/Admin/AdminRegister";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminProfile from "./components/Admin/AdminProfile";
 import FineManagement from "./components/Admin/FineManagement";

@@ -18,8 +18,6 @@ router.post(
 );
 
 router.post("/login", loginAdmin);
-
-// Protected routes
 router.get("/", protectAdmin, getAllAdmins);
 router.put("/:id", protectAdmin, updateAdmin);
 router.delete("/:id", protectAdmin, deleteAdmin);

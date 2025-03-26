@@ -18,9 +18,13 @@ export const registerAdmin = async (req, res) => {
   const { name, email, password, nic, mobile } = req.body;
 
   try {
-    const existingAdmin = await Admin.findOne({ email });
+    // Check if email, nic, or mobile already exists
+    const existingAdmin = await Admin.findOne({ 
+      $or: [{ email }, { nic }, { mobile }]
+    });
+
     if (existingAdmin) {
-      return res.status(400).json({ message: "Admin already exists" });
+      return res.status(400).json({ message: "Admin with provided email, NIC, or mobile already exists" });
     }
 
     // Hash password before saving
@@ -44,7 +48,8 @@ export const registerAdmin = async (req, res) => {
       token: generateToken(admin._id),
     });
   } catch (error) {
-    res.status(500).json({ message: "Error registering admin" });
+    console.error("Register Admin Error:", error);
+    res.status(500).json({ message: "Error registering admin", error: error.message });
   }
 };
 
@@ -70,7 +75,8 @@ export const loginAdmin = async (req, res) => {
       token: generateToken(admin._id),
     });
   } catch (error) {
-    res.status(500).json({ message: "Error logging in" });
+    console.error("Login Admin Error:", error);
+    res.status(500).json({ message: "Error logging in", error: error.message });
   }
 };
 
@@ -80,7 +86,8 @@ export const getAllAdmins = async (req, res) => {
     const admins = await Admin.find().select('-password');
     res.status(200).json(admins);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching admins" });
+    console.error("Fetch Admins Error:", error);
+    res.status(500).json({ message: "Error fetching admins", error: error.message });
   }
 };
 
@@ -98,7 +105,7 @@ export const updateAdmin = async (req, res) => {
     admin.email = email || admin.email;
     admin.nic = nic || admin.nic;
     admin.mobile = mobile || admin.mobile;
-    
+
     if (password) {
       const salt = await bcrypt.genSalt(10);
       admin.password = await bcrypt.hash(password, salt);
@@ -113,7 +120,8 @@ export const updateAdmin = async (req, res) => {
       mobile: updatedAdmin.mobile
     });
   } catch (error) {
-    res.status(500).json({ message: "Error updating admin" });
+    console.error("Update Admin Error:", error);
+    res.status(500).json({ message: "Error updating admin", error: error.message });
   }
 };
 
@@ -128,6 +136,7 @@ export const deleteAdmin = async (req, res) => {
     await admin.deleteOne();
     res.status(200).json({ message: "Admin deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting admin" });
+    console.error("Delete Admin Error:", error);
+    res.status(500).json({ message: "Error deleting admin", error: error.message });
   }
 };
