@@ -218,3 +218,27 @@ export const checkAuth = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  const { firstName, lastName, email, phoneNumber, NICNumber } = req.body;
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Update fields if provided
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.email = email || user.email;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+    user.NICNumber = NICNumber || user.NICNumber;
+
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Profile updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

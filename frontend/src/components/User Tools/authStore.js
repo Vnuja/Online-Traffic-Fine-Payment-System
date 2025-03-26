@@ -86,6 +86,7 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+  
   verifyEmail: async (code) => {
     set({ isLoading: true, error: null });
     try {
@@ -104,6 +105,7 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
@@ -117,6 +119,7 @@ export const useAuthStore = create((set) => ({
       set({ error: null, isCheckingAuth: false, isAuthenticated: false });
     }
   },
+
   forgotPassword: async (email) => {
     set({ isLoading: true, error: null });
     try {
@@ -133,6 +136,7 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+
   resetPassword: async (token, password) => {
     set({ isLoading: true, error: null });
     try {
@@ -148,4 +152,5 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+
 }));
