@@ -19,13 +19,13 @@ const userSchema = new mongoose.Schema({
     },
 
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
 
     NICNumber: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },

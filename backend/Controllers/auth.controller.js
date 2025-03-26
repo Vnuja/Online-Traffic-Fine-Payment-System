@@ -2,12 +2,7 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
 import { generateTokenAndSetCookie } from "../Utils/generateTokenAndSetCookie.js";
-import {
-  sendVerificationEmail,
-  sendWelcomeEmail,
-  sendPasswordResetEmail,
-  sendResetSuccessEmail,
-} from "../MailTrap/emails.js";
+
 import { User } from "../Models/user.model.js";
 
 export const signup = async (req, res) => {
@@ -56,7 +51,8 @@ export const signup = async (req, res) => {
     //jwt
     generateTokenAndSetCookie(res, user._id);
 
-    await sendVerificationEmail(user.email, verificationToken);
+    //change hrp
+    //await sendVerificationEmail(user.email, verificationToken);
 
     res.status(201).json({
       success: true,
@@ -91,7 +87,8 @@ export const verifyEmail = async (req, res) => {
     user.verificationTokenExpiresAt = undefined;
     await user.save();
 
-    await sendWelcomeEmail(user.email, user.firstName);
+    //change hrp
+    //await sendWelcomeEmail(user.email, user.firstName);
   } catch (error) {}
 };
 
@@ -161,10 +158,11 @@ export const forgotPassword = async (req, res) => {
     await user.save(); //update database
 
     //send email
-    await sendPasswordResetEmail(
-      user.email,
-      `${process.env.CLIENT_URL}/reset-password/${resetToken}`
-    );
+    //change hrp
+    // await sendPasswordResetEmail(
+    //   user.email,
+    //   `${process.env.CLIENT_URL}/reset-password/${resetToken}`
+    // );
   } catch (error) {}
 };
 
@@ -192,13 +190,31 @@ export const resetPassword = async (req, res) => {
     user.resetPasswordExpiresAt = undefined;
     await user.save();
 
-    await sendResetSuccessEmail(user.email);
+    //change hrp
+    //await sendResetSuccessEmail(user.email);
 
     res
       .status(200)
       .json({ success: true, message: "Password reset successfully" });
   } catch (error) {
     console.log("Error in resetPassword", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log("Error in checkAuth", error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
