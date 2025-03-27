@@ -12,6 +12,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const { logout, isLoading } = useAuthStore();
   const navigate = useNavigate();
+  const { deleteAccount } = useAuthStore();
 
   //Nic calculate
   const [gender, setGender] = useState("");
@@ -50,26 +51,15 @@ const Profile = () => {
     navigate("/login"); // Redirect to login page after logout
   };
 
-  const deleteAccount = async () => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      )
-    ) {
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
-        const response = await axios.delete(
-          "http://localhost:3000/api/auth/delete-account",
-          { withCredentials: true }
-        );
-  
-        if (response.data.success) {
-          alert("Your account has been deleted.");
-          window.location.href = "/signup";
-        } else {
-          alert("Error deleting account.");
-        }
+        await deleteAccount(); // Ensure this function makes an API request
+        alert("Account deleted successfully.");
+        navigate("/signup");
       } catch (error) {
-        alert(error.response?.data?.message || "Error deleting account.");
+        console.error("Error deleting account:", error);
+        alert("Error deleting account. Please try again.");
       }
     }
   };  
@@ -183,7 +173,7 @@ const Profile = () => {
                 </button>
                 <button
                   className="bg-red-500 text-white px-4 py-2 rounded-lg w-full"
-                  onClick={deleteAccount}
+                  onClick={handleDeleteAccount}
                 >
                   Delete Account
                 </button>
