@@ -33,7 +33,11 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       // Call your backend endpoint to register an admin
-      const response = await axios.post("http://localhost:3000/api/admin/register", data);
+      const response = await axios.post(
+        "http://localhost:3000/api/admin/register",
+        data,
+        { withCredentials: true }  // Allow cookies/authentication headers
+      );      
       
       if (response.status === 201) {
         alert("Registration successful! Please login.");

@@ -23,8 +23,12 @@ const AdminLogin = () => {
   const onSubmit = async (data) => {
     try {
       // Call your backend endpoint to login
-      const response = await axios.post("http://localhost:3000/api/admin/login", data);
-      
+      const response = await axios.post(
+        "http://localhost:3000/api/admin/login",
+        data,
+        { withCredentials: true }  // Allow cookies/authentication headers
+      );
+            
       // Save token and admin details from backend
       localStorage.setItem("adminToken", response.data.token);
       localStorage.setItem("currentAdmin", JSON.stringify(response.data));
