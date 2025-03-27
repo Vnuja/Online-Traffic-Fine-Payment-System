@@ -50,16 +50,29 @@ const Profile = () => {
     navigate("/login"); // Redirect to login page after logout
   };
 
-  const deleteAccount = () => {
+  const deleteAccount = async () => {
     if (
       window.confirm(
         "Are you sure you want to delete your account? This action cannot be undone."
       )
     ) {
-      alert("Your account has been deleted.");
-      window.location.href = "/signup";
+      try {
+        const response = await axios.delete(
+          "http://localhost:3000/api/auth/delete-account",
+          { withCredentials: true }
+        );
+  
+        if (response.data.success) {
+          alert("Your account has been deleted.");
+          window.location.href = "/signup";
+        } else {
+          alert("Error deleting account.");
+        }
+      } catch (error) {
+        alert(error.response?.data?.message || "Error deleting account.");
+      }
     }
-  };
+  };  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

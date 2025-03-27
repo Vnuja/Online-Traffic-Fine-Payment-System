@@ -8,6 +8,7 @@ import {
   resetPassword,
   checkAuth,
   updateProfile,
+  deleteAccount,
 } from "../Controllers/auth.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -23,7 +24,8 @@ router.post("/logout", logout);
 
 router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
-
 router.post("/reset-password/:token", resetPassword);
+
+router.delete("/delete-account", verifyToken, deleteAccount);
 
 export default router;
