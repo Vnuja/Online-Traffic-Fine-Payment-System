@@ -243,6 +243,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+//not working
 export const deleteAccount = async (req, res) => {
   try {
     const userId = req.user.id;

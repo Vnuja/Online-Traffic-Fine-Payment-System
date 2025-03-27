@@ -26,6 +26,6 @@ router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 
-router.delete("/delete-account", verifyToken, deleteAccount);
+router.delete("/delete-account", verifyToken, deleteAccount); //not working
 
 export default router;

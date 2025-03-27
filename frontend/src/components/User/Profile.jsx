@@ -12,7 +12,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const { logout, isLoading } = useAuthStore();
   const navigate = useNavigate();
-  const { deleteAccount } = useAuthStore();
+  const { deleteAccount } = useAuthStore(); //not working
 
   //Nic calculate
   const [gender, setGender] = useState("");
@@ -51,6 +51,7 @@ const Profile = () => {
     navigate("/login"); // Redirect to login page after logout
   };
 
+  //not working
   const handleDeleteAccount = async () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
