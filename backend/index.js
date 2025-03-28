@@ -7,27 +7,33 @@ import adminRoutes from './Routes/adminRoutes.js';
 
 dotenv.config();
 
-// Connect to Database first
-// connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Global debug middleware to log all incoming requests
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] [GLOBAL] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// CORS configuration to allow requests from your frontend origins
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],  // Allow frontend origins
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Routes
+// Routes mounting
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
-// Connect to Database and start server
+// Connect to MongoDB and start the server
 connectDB().then(() => {
+  console.log("Connected to MongoDB");
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
   });

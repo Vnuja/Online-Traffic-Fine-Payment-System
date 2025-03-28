@@ -5,6 +5,12 @@ import { protectAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// Debug middleware to log each request to admin routes
+router.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] [ADMIN ROUTES] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 router.post(
   "/register",
   [
