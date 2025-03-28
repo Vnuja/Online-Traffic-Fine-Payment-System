@@ -1,17 +1,18 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api/auth" : "/api/auth";
+const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth" : "/api/auth";
 
 axios.defaults.withCredentials = true;
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
 	user: null,
 	isAuthenticated: false,
 	error: null,
 	isLoading: false,
 	isCheckingAuth: true,
 	message: null,
+	token: localStorage.getItem('token') || null,
 
 	signup: async (email, password, firstName, lastName, phoneNumber, NICNumber) => {
 		set({ isLoading: true, error: null });
@@ -35,9 +36,12 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axios.post(`${API_URL}/login`, { email, password });
+			const { token, user } = response.data;
+			localStorage.setItem('token', token);
 			set({
 				isAuthenticated: true,
-				user: response.data.user,
+				user,
+				token,
 				error: null,
 				isLoading: false,
 			});
@@ -51,7 +55,8 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			await axios.post(`${API_URL}/logout`);
-			set({ user: null, isAuthenticated: false, error: null, isLoading: false });
+			localStorage.removeItem('token');
+			set({ user: null, isAuthenticated: false, token: null, error: null, isLoading: false });
 		} catch (error) {
 			set({ error: "Error logging out", isLoading: false });
 			throw error;

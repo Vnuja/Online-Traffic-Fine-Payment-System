@@ -9,11 +9,24 @@ dotenv.config();
 
 // Connect to Database first
 // connectDB();
-
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
-// Connect to Database first
+// Middleware
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],  // Allow frontend origins
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+
+// Connect to Database and start server
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
@@ -22,17 +35,3 @@ connectDB().then(() => {
   console.error("Database connection failed:", error);
   process.exit(1);
 });
-
-// Middleware
-app.use(cors({
-    origin: "http://localhost:5175",  // Allow only the frontend origin
-    credentials: true, // Allow cookies and authentication headers
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  }));
-  
-app.use(express.json());
-
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);

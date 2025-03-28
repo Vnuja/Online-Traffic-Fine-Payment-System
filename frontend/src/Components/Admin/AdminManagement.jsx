@@ -17,24 +17,29 @@ const AdminManagement = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
 
   // Load admins from API
   useEffect(() => {
-    fetchAdmins();
-  }, []);
+    if (token) {
+      fetchAdmins();
+    }
+  }, [token]);
 
   const fetchAdmins = async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/admin", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
       setAdmins(response.data);
       setError("");
     } catch (err) {
-      setError("Failed to fetch admins");
-      console.error(err);
+      setError(err.response?.data?.message || "Failed to fetch admins");
+      console.error("Fetch error:", err);
     } finally {
       setLoading(false);
     }
@@ -52,8 +57,11 @@ const AdminManagement = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/admin/register", formData, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await axios.post("http://localhost:5000/api/admin/register", formData, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
       setFormData({
         name: "",
@@ -66,7 +74,7 @@ const AdminManagement = () => {
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add admin");
-      console.error(err);
+      console.error("Add error:", err);
     } finally {
       setLoading(false);
     }
@@ -87,8 +95,11 @@ const AdminManagement = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.put(`http://localhost:5000/api/admin/${editingAdmin}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await axios.put(`http://localhost:5000/api/admin/${editingAdmin}`, formData, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
       setEditingAdmin(null);
       setFormData({
@@ -102,7 +113,7 @@ const AdminManagement = () => {
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update admin");
-      console.error(err);
+      console.error("Update error:", err);
     } finally {
       setLoading(false);
     }
@@ -112,14 +123,17 @@ const AdminManagement = () => {
     if (window.confirm("Are you sure you want to delete this admin?")) {
       try {
         setLoading(true);
-        await axios.delete(`http://localhost:5000/api/admin/${adminId}`, {
-          headers: { Authorization: `Bearer ${token}` }
+        const response = await axios.delete(`http://localhost:5000/api/admin/${adminId}`, {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         });
         fetchAdmins();
         setError("");
       } catch (err) {
         setError(err.response?.data?.message || "Failed to delete admin");
-        console.error(err);
+        console.error("Delete error:", err);
       } finally {
         setLoading(false);
       }
