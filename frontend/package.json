@@ -10,7 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",
+    "@mui/material": "^7.0.1",
+    "@react-pdf/renderer": "^4.3.0",
+    "@rollup/rollup-win32-x64-msvc": "^4.38.0",
     "axios": "^1.8.4",
     "framer-motion": "^12.5.0",
     "frontend": "file:",

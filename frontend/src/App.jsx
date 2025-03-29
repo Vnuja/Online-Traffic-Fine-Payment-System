@@ -21,6 +21,7 @@ import UserMonitoring from "./components/Admin/UserMonitoring";
 import GetStart from "./components/Predication/GetStart";
 import About from "./components/Predication/About"
 import Services from "./components/Predication/Services";
+import Assistant from "./Components/Predication/Assistant";
 
 function App() {
   const location = useLocation();
@@ -62,6 +63,8 @@ function App() {
         <Route path="/" element={<GetStart />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/ai" element={<Assistant />} />
+
 
       </Routes>
     </div>

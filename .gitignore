@@ -1,3 +1,4 @@
 .qodo
 # Ignore .env file
 .env
+/backend/node_modules

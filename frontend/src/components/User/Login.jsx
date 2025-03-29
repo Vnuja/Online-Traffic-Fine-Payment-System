@@ -8,12 +8,18 @@ import { useAuthStore } from "../User Tools/authStore";
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
 
-	const { login, isLoading, error } = useAuthStore();
+	const { isLoading } = useAuthStore();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		await login(email, password);
+		if (email === "admin" && password === "123") {
+			console.log("Login successful");
+			// Redirect or set authentication state
+		} else {
+			setError("Invalid credentials");
+		}
 	};
 
 	return (
@@ -31,8 +37,8 @@ const LoginPage = () => {
 				<form onSubmit={handleLogin}>
 					<Input
 						icon={Mail}
-						type='email'
-						placeholder='Email Address'
+						type='text'
+						placeholder='Username'
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
@@ -59,7 +65,7 @@ const LoginPage = () => {
 						type='submit'
 						disabled={isLoading}
 					>
-						{isLoading ? <Loader className='w-6 h-6 animate-spin  mx-auto' /> : "Login"}
+						{isLoading ? <Loader className='w-6 h-6 animate-spin mx-auto' /> : "Login"}
 					</motion.button>
 				</form>
 			</div>
@@ -74,4 +80,5 @@ const LoginPage = () => {
 		</motion.div>
 	);
 };
+
 export default LoginPage;
