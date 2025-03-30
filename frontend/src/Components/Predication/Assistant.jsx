@@ -73,18 +73,24 @@ export default function AI() {
     setSelectedUserId(null);
   };
 
-  const addFine = (userId) => {
-    if (newFine.type.trim() && newFine.amount.trim()) {
-      const updatedUsers = users.map((user) => {
-        if (user.id === userId) {
-          user.fines.push({ type: newFine.type, amount: parseFloat(newFine.amount) });
-        }
-        return user;
-      });
-      setUsers(updatedUsers);
-      setNewFine({ type: "", amount: "" });
-    }
-  };
+const addFine = (userId) => {
+  if (newFine.type.trim() && newFine.amount.trim()) {
+    const updatedUsers = users.map((user) => {
+      if (user.id === userId) {
+        return {
+          ...user,
+          fines: [...user.fines, { type: newFine.type, amount: parseFloat(newFine.amount) }],
+        };
+      }
+      return user;
+    });
+
+    setUsers(updatedUsers); // Update the users state
+    setNewFine({ type: "", amount: "" }); // Clear the fine input fields
+  } else {
+    alert("Both Fine Type and Amount are required!"); // Show an alert if fields are empty
+  }
+};
 
   const confirmDeleteFine = () => {
     if (selectedUserId !== null && selectedFineIndex !== null) {
@@ -97,7 +103,7 @@ export default function AI() {
         }
         return user;
       });
-
+  
       setUsers(updatedUsers); // Update the users state
       setFineDialogOpen(false); // Close the confirmation dialog
       setSelectedUserId(null); // Reset the selected user ID
