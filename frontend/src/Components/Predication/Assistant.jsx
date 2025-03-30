@@ -73,24 +73,24 @@ export default function AI() {
     setSelectedUserId(null);
   };
 
-const addFine = (userId) => {
-  if (newFine.type.trim() && newFine.amount.trim()) {
-    const updatedUsers = users.map((user) => {
-      if (user.id === userId) {
-        return {
-          ...user,
-          fines: [...user.fines, { type: newFine.type, amount: parseFloat(newFine.amount) }],
-        };
-      }
-      return user;
-    });
+  const addFine = (userId) => {
+    if (newFine.type.trim() && newFine.amount.trim()) {
+      const updatedUsers = users.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            fines: [...user.fines, { type: newFine.type, amount: parseFloat(newFine.amount) }],
+          };
+        }
+        return user;
+      });
 
-    setUsers(updatedUsers); // Update the users state
-    setNewFine({ type: "", amount: "" }); // Clear the fine input fields
-  } else {
-    alert("Both Fine Type and Amount are required!"); // Show an alert if fields are empty
-  }
-};
+      setUsers(updatedUsers); // Update the users state
+      setNewFine({ type: "", amount: "" }); // Clear the fine input fields
+    } else {
+      alert("Both Fine Type and Amount are required!"); // Show an alert if fields are empty
+    }
+  };
 
   const confirmDeleteFine = () => {
     if (selectedUserId !== null && selectedFineIndex !== null) {
@@ -103,7 +103,7 @@ const addFine = (userId) => {
         }
         return user;
       });
-  
+
       setUsers(updatedUsers); // Update the users state
       setFineDialogOpen(false); // Close the confirmation dialog
       setSelectedUserId(null); // Reset the selected user ID
@@ -154,135 +154,149 @@ const addFine = (userId) => {
         />
 
         {/* Add User */}
-          <Grid container spacing={2} mb={4} sx={{ backgroundColor: "#ffffff", padding: 2, borderRadius: 2 }}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                value={newUser}
-                onChange={(e) => setNewUser(e.target.value)}
-                label="Enter User Name"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                value={newNic}
-                onChange={(e) => setNewNic(e.target.value)}
-                label="Enter NIC"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                value={newPhone}
-                onChange={(e) => setNewPhone(e.target.value)}
-                label="Enter Phone"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={addUser}
-                fullWidth
-                sx={{ padding: 1.5, fontSize: "1rem", fontWeight: "bold" }}
-              >
-                Add User
-              </Button>
-            </Grid>
-          </Grid>
-
-          {filteredUsers
-            .slice()
-            .sort((a, b) => b.id - a.id)
-            .map((user) => (
-              <Card key={user.id} sx={{ mb: 4, boxShadow: 3, borderRadius: 2, overflow: "hidden" }}>
-                <CardContent sx={{ backgroundColor: "#ffffff", padding: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={8}>
-                <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
-                  {user.nic}
-                </Typography>
-                <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
-                  {user.name}
-                </Typography>
-                <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
-                  {user.phone}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-                  Predicted Next Fine:{" "}
-                  <span style={{ fontWeight: "bold", color: "#d32f2f" }}>
-              {AI_PredictFine[Math.floor(Math.random() * AI_PredictFine.length)].type}
-                  </span>
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
-                  <PDFDownloadLink
-              document={
-                <Document>
-                  <Page size="A4" style={{ padding: 20, fontFamily: "Helvetica" }}>
-                    <Text style={{ fontSize: 20, marginBottom: 10, textAlign: "center" }}>
-                Traffic Fine Details
-                    </Text>
-                    <Text style={{ fontSize: 16, marginBottom: 5 }}>
-                Name: {user.name}
-                    </Text>
-                    <Text style={{ fontSize: 16, marginBottom: 5 }}>
-                NIC: {user.nic}
-                    </Text>
-                    <Text style={{ fontSize: 16, marginBottom: 5 }}>
-                Phone: {user.phone}
-                    </Text>
-                    <Text style={{ fontSize: 16, marginTop: 10, marginBottom: 5 }}>
-                Fines:
-                    </Text>
-                    {user.fines && user.fines.length > 0 ? (
-                user.fines.map((fine, index) => (
-                  <Text key={index} style={{ fontSize: 14, marginBottom: 3 }}>
-                    {index + 1}. {fine.type} - ${fine.amount}
-                  </Text>
-                ))
-                    ) : (
-                <Text style={{ fontSize: 14, marginBottom: 3 }}>No fines available</Text>
-                    )}
-                    <Text style={{ fontSize: 14, marginTop: 20, textAlign: "center" }}>
-                Thank you for using the Online Traffic Fine Payment System.
-                    </Text>
-                  </Page>
-                </Document>
-              }
-              fileName={`${user.name}_fines.pdf`}
-                  >
-              {({ loading }) =>
-                loading ? (
-                  <Button variant="outlined" color="primary" disabled>
-                    Loading PDF...
-                  </Button>
-                ) : (
-                  <Button variant="outlined" color="primary" sx={{ fontWeight: "bold" }}>
-                    Download PDF
-                  </Button>
-                )
-              }
-                  </PDFDownloadLink>
-                  <Button
+        <Grid container spacing={2} mb={4} sx={{ backgroundColor: "#ffffff", padding: 2, borderRadius: 2 }}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              value={newUser}
+              onChange={(e) => setNewUser(e.target.value)}
+              label="Enter User Name"
               variant="outlined"
-              color="error"
-              onClick={() => handleDeleteUser(user.id)}
-              sx={{ fontWeight: "bold" }}
-                  >
-              Delete User
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
+              fullWidth
+              sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
+              error={!newUser.trim() && newUser !== ""}
+              helperText={!newUser.trim() && newUser !== "" ? "Name is required" : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              value={newNic}
+              onChange={(e) => setNewNic(e.target.value)}
+              label="Enter NIC"
+              variant="outlined"
+              fullWidth
+              sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
+              error={!/^\d{12}/.test(newNic) && newNic !== ""}
+              helperText={
+                !/^\d{9}[vV]$/.test(newNic) && newNic !== ""
+                  ? "NIC must be 9 digits followed by 'V' or 'v'"
+                  : ""
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+              label="Enter Phone"
+              variant="outlined"
+              fullWidth
+              sx={{ mb: 4, backgroundColor: "white", borderRadius: 1 }}
+              error={!/^\d{10}$/.test(newPhone) && newPhone !== ""}
+              helperText={
+                !/^\d{10}$/.test(newPhone) && newPhone !== ""
+                  ? "Phone number must be 10 digits"
+                  : ""
+              }
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={addUser}
+              fullWidth
+              sx={{ padding: 1.5, fontSize: "1rem", fontWeight: "bold" }}
+            >
+              Add User
+            </Button>
+          </Grid>
+        </Grid>
+
+        {filteredUsers
+          .slice()
+          .sort((a, b) => b.id - a.id)
+          .map((user) => (
+            <Card key={user.id} sx={{ mb: 4, boxShadow: 3, borderRadius: 2, overflow: "hidden" }}>
+              <CardContent sx={{ backgroundColor: "#ffffff", padding: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={8}>
+                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
+                      {user.nic}
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
+                      {user.name}
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1565c0" }}>
+                      {user.phone}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
+                      Predicted Next Fine:{" "}
+                      <span style={{ fontWeight: "bold", color: "#d32f2f" }}>
+                        {AI_PredictFine[Math.floor(Math.random() * AI_PredictFine.length)].type}
+                      </span>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+                      <PDFDownloadLink
+                        document={
+                          <Document>
+                            <Page size="A4" style={{ padding: 20, fontFamily: "Helvetica" }}>
+                              <Text style={{ fontSize: 20, marginBottom: 10, textAlign: "center" }}>
+                                Traffic Fine Details
+                              </Text>
+                              <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                                Name: {user.name}
+                              </Text>
+                              <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                                NIC: {user.nic}
+                              </Text>
+                              <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                                Phone: {user.phone}
+                              </Text>
+                              <Text style={{ fontSize: 16, marginTop: 10, marginBottom: 5 }}>
+                                Fines:
+                              </Text>
+                              {user.fines && user.fines.length > 0 ? (
+                                user.fines.map((fine, index) => (
+                                  <Text key={index} style={{ fontSize: 14, marginBottom: 3 }}>
+                                    {index + 1}. {fine.type} - ${fine.amount}
+                                  </Text>
+                                ))
+                              ) : (
+                                <Text style={{ fontSize: 14, marginBottom: 3 }}>No fines available</Text>
+                              )}
+                              <Text style={{ fontSize: 14, marginTop: 20, textAlign: "center" }}>
+                                Thank you for using the Online Traffic Fine Payment System.
+                              </Text>
+                            </Page>
+                          </Document>
+                        }
+                        fileName={`${user.name}_fines.pdf`}
+                      >
+                        {({ loading }) =>
+                          loading ? (
+                            <Button variant="outlined" color="primary" disabled>
+                              Loading PDF...
+                            </Button>
+                          ) : (
+                            <Button variant="outlined" color="primary" sx={{ fontWeight: "bold" }}>
+                              Download PDF
+                            </Button>
+                          )
+                        }
+                      </PDFDownloadLink>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteUser(user.id)}
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        Delete User
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
                 <Box sx={{ mt: 3 }}>
                   <Typography variant="body1" sx={{ mb: 2 }}>
                     Add Fine
